@@ -6,12 +6,10 @@ let frameCount = 0;
 const frameNumForCalculate = 30;
 
 // מערך השומר מיקום של תנועות ידיים ומתעדכן כל X פריימים
-// מבנה המערך:
-// 0 - ימין X
-// 1-ימין Y 
-// 2- שמאל X 
-// 3-שמאל Y 
-let handsLocation=[];
+// מבנה מערך:
+// 1- מערך של ימין
+//2- מערך של שמאל
+let handsLocation = [];
 
 
 
@@ -31,6 +29,7 @@ async function initSkeleton() {
 
     // ספירת הפריים
     frameCount++;
+    //console.log("frame count: " + frameCount);
 
     try {
       // Detect poses in the video
@@ -157,105 +156,90 @@ function handsMovment(keypoints) {
   //בדיקה שיש רצון לבצע ניתוח
   if (runHands == true) {
     // בדיקה שיש וודאות במציאת הנקודה
-    //שמירת המיקום במערך הזמני
-    if (keypoints[10].score > 0.4) {
-      handsLocation.push(keypoints[10].x);
-      handsLocation.push(keypoints[10].y);
-    }
-    else {
-      handsLocation.push(0);
-      handsLocation.push(0);
-    }
-    if (keypoints[9].score > 0.4) {
-      handsLocation.push(keypoints[9].x);
-      handsLocation.push(keypoints[9].y);
-    }
-    else {
-      handsLocation.push(0);
-      handsLocation.push(0);
-    }
+    //שמירת המיקום במערך הזמני    
+    handsLocation.push(keypoints[10]);
+    handsLocation.push(keypoints[9]);
+
+
 
     // כל X פריים מנתחים:
-    if (frameCount % frameNumForCalculate) {
+    if (frameCount % frameNumForCalculate == 0) {      
+      // שמירה במערך זמני
+      const handsLocationTemp = handsLocation;
+      // איפוס המערך
+      handsLocation = [];
+      
       let rightNotShowCount = 0;
-      let rightXMin = 0;
-      let rightXMax = 0;
-      let rightYMin = 0;
-      let rightYMax = 0;
+      let rightXMin = handsLocationTemp[0].x;
+      let rightXMax = handsLocationTemp[0].x;
+      let rightYMin = handsLocationTemp[0].y;
+      let rightYMax = handsLocationTemp[0].y;
       let leftNotShowCount = 0;
-      let leftXMin = 0;
-      let leftXMax = 0;
-      let leftYMin = 0;
-      let leftYMax = 0;
+      let leftXMin = handsLocationTemp[1].x;
+      let leftXMax = handsLocationTemp[1].x;
+      let leftYMin = handsLocationTemp[1].y;
+      let leftYMax = handsLocationTemp[1].y;
 
 
       // איסוף נתונים
       //בדיקה של יד ימין
       // X 
-      for (i = 0; i < handsLocation.length; i + 4) {
-        if (handsLocation[i] == 0) {
+      for (let i = 0; i < handsLocationTemp.length-1; i += 2) { 
+        if (handsLocationTemp[i].score < 0.4) {
           rightNotShowCount++;
         }
         else {
-          if (handsLocation[i] > rightXMax) {
-            rightXMax = handsLocation[i];
+          if (handsLocationTemp[i].x > rightXMax) {
+            rightXMax = handsLocationTemp[i].x;
           }
-          if (handsLocation[i] < rightXMin) {
-            rightXMin = handsLocation[i];
+          if (handsLocationTemp[i].x < rightXMin) {
+            rightXMin = handsLocationTemp[i].x;
           }
-        }
-      }
-      // Y 
-      for (i = 1; i < handsLocation.length; i + 4) {
-        if (handsLocation[i] != 0) {
-          if (handsLocation[i] > rightYMax) {
-            rightYMax = handsLocation[i];
+          // Y 
+          if (handsLocationTemp[i].y > rightYMax) {
+            rightYMax = handsLocationTemp[i].y;
           }
-          if (handsLocation[i] < rightYMin) {
-            rightYMin = handsLocation[i];
+          if (handsLocationTemp[i].y < rightYMin) {
+            rightYMin = handsLocationTemp[i].y;
           }
         }
       }
+    
 
       //בדיקה של יד שמאל
       // X 
-      for (i = 2; i < handsLocation.length; i + 4) {
-        if (handsLocation[i] == 0) {
+      for (let i = 1; i < handsLocationTemp.length-1; i += 2) {
+        if (handsLocationTemp[i].score < 0.4) {
           leftNotShowCount++;
         }
         else {
-          if (handsLocation[i] > leftXMax) {
-            leftXMax = handsLocation[i];
+          if (handsLocationTemp[i].x > leftXMax) {
+            leftXMax = handsLocationTemp[i].x;
           }
-          if (handsLocation[i] < leftXMin) {
-            leftXMin = handsLocation[i];
+          if (handsLocationTemp[i].x < leftXMin) {
+            leftXMin = handsLocationTemp[i].x;
           }
+          // Y 
+          if (handsLocationTemp[i].y > leftYMax) {
+            leftYMax = handsLocationTemp[i].y;
+          }
+          if (handsLocationTemp[i].y < leftYMin) {
+            leftYMin = handsLocationTemp[i].y;
+          }
+
+
         }
       }
-      // Y 
-      for (i = 3; i < handsLocation.length; i + 4) {
-        if (handsLocation[i] != 0) {
-          if (handsLocation[i] > leftYMax) {
-            leftYMax = handsLocation[i];
-          }
-          if (handsLocation[i] < leftYMin) {
-            leftYMin = handsLocation[i];
-          }
-        }
-      }
-
-      // איפוס המערך
-      handsLocation=[];
-
 
       //  ביצוע חישוב והדפסה
+      const minMargin=30;
       document.getElementById("feedback").innerHTML = "";
       document.getElementById("feedback").innerHTML += "יד ימין: " + "</br>";
       if (rightNotShowCount > frameNumForCalculate / 2) {
         document.getElementById("feedback").innerHTML += "שים לב לא להסתיר את היד " + "</br>";
       }
       else {
-        if (rightXMax - rightXMin > 20 && rightYMax - rightYMin > 20) {
+        if (rightXMax - rightXMin > minMargin && rightYMax - rightYMin > minMargin) {
           document.getElementById("feedback").innerHTML += "כל הכבוד! יש תנועה מספקת עם היד" + "</br>";
         }
         else {
@@ -267,7 +251,7 @@ function handsMovment(keypoints) {
         document.getElementById("feedback").innerHTML += "שים לב לא להסתיר את היד " + "</br>";
       }
       else {
-        if (leftXMax - leftXMin > 20 && leftYMax - leftYMin > 20) {
+        if (leftXMax - leftXMin > minMargin && leftYMax - leftYMin > minMargin) {
           document.getElementById("feedback").innerHTML += "כל הכבוד! יש תנועה מספקת עם היד" + "</br>";
         }
         else {
