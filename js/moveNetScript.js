@@ -1,6 +1,7 @@
 let runDetector = true;
 let runFrame = false;
-let runHands = true;
+let runHands = false;
+let runEyes = true;
 
 let frameCount = 0;
 const frameNumForCalculate = 30;
@@ -10,7 +11,8 @@ const frameNumForCalculate = 30;
 // 1- מערך של ימין
 //2- מערך של שמאל
 let handsLocation = [];
-
+// מערך עיניים, כל תא עין ימין ואז שמאל
+let eyesLocation =[];
 
 
 // פונקצייה שמכינה את כל מה שצריך כדי להתחיל לאסוף וידיאו ולנתח אותו 
@@ -66,6 +68,8 @@ async function initSkeleton() {
         fullBodyInFrame(keypoints);
         // קריאה לתנועות ידיים
         handsMovment(keypoints);
+        // קריא לבדיקת מבט
+        eyeTocamra(keypoints);
       }
 
       // Call the redraw function again to draw the next frame
@@ -163,12 +167,12 @@ function handsMovment(keypoints) {
 
 
     // כל X פריים מנתחים:
-    if (frameCount % frameNumForCalculate == 0) {      
+    if (frameCount % frameNumForCalculate == 0) {
       // שמירה במערך זמני
       const handsLocationTemp = handsLocation;
       // איפוס המערך
       handsLocation = [];
-      
+
       let rightNotShowCount = 0;
       let rightXMin = handsLocationTemp[0].x;
       let rightXMax = handsLocationTemp[0].x;
@@ -184,7 +188,7 @@ function handsMovment(keypoints) {
       // איסוף נתונים
       //בדיקה של יד ימין
       // X 
-      for (let i = 0; i < handsLocationTemp.length-1; i += 2) { 
+      for (let i = 0; i < handsLocationTemp.length - 1; i += 2) {
         if (handsLocationTemp[i].score < 0.4) {
           rightNotShowCount++;
         }
@@ -204,11 +208,11 @@ function handsMovment(keypoints) {
           }
         }
       }
-    
+
 
       //בדיקה של יד שמאל
       // X 
-      for (let i = 1; i < handsLocationTemp.length-1; i += 2) {
+      for (let i = 1; i < handsLocationTemp.length - 1; i += 2) {
         if (handsLocationTemp[i].score < 0.4) {
           leftNotShowCount++;
         }
@@ -232,7 +236,7 @@ function handsMovment(keypoints) {
       }
 
       //  ביצוע חישוב והדפסה
-      const minMargin=30;
+      const minMargin = 30;
       document.getElementById("feedback").innerHTML = "";
       document.getElementById("feedback").innerHTML += "יד ימין: " + "</br>";
       if (rightNotShowCount > frameNumForCalculate / 2) {
@@ -262,7 +266,45 @@ function handsMovment(keypoints) {
   }
 }
 
-  //פונקציה שבודקת מבט למצלמה
-    //בדיקה שיש רצון לבצע ניתוח
+//פונקציה שבודקת מבט למצלמה
+function eyeTocamra(keypoints) {
+  //בדיקה שיש רצון לבצע ניתוח
+  if (runEyes == true) {
+// בדיקה שיש וודאות במציאת הנקודה
+    //שמירת המיקום במערך הזמני    
+    eyesLocation.push(keypoints[2]);
+    eyesLocation.push(keypoints[1]);
 
+    // כל X פריים מנתחים:
+    if (frameCount % frameNumForCalculate == 0) {
+      // שמירה במערך זמני
+      const eyesLocationTemp = eyesLocation;
+      // איפוס המערך
+      eyesLocation = [];
 
+      // ספירת חוסר נראות לימין ולשמאל בנפד
+      let rightNotShowCount=0;
+      let leftNotShowCount=0;
+
+      for (let i = 0; i < eyesLocationTemp.length - 1; i += 2) {
+        if (eyesLocationTemp[i].score < 0.65) {
+          rightNotShowCount++;
+        }
+      }
+        for (let i = 1; i < eyesLocationTemp.length - 1; i += 2) {
+          if (eyesLocationTemp[i].score < 0.65) {
+            leftNotShowCount++;
+          }
+        }
+
+        // הדפסה
+        document.getElementById("feedback").innerHTML = "";
+        if (rightNotShowCount > frameNumForCalculate / 2 || leftNotShowCount > frameNumForCalculate / 2) {
+          document.getElementById("feedback").innerHTML += "שים לב להסתכל למצלמה " + "</br>";
+        }
+        else{
+          document.getElementById("feedback").innerHTML += "מבט למצלמה מעולה!" + "</br>";
+        }
+    }
+  }
+}
