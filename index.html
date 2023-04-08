@@ -65,14 +65,11 @@
 
 
     <!-- זיהוי וידיאו ויצירת שלד באמצעות  -->
-    <!-- movenet -->   
-
-    
+    <!-- movenet -->    
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core"></script>
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter"></script>
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/pose-detection"></script>
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl"></script>
-
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
@@ -81,12 +78,18 @@
 <!-- קישור לתסריט שמתעסק בזה -->
 <script src="js/moveNetScript.js"></script>
 
+<!-- סקריפט לשימוש בגרפים -->
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+<!-- קישור לתסריט שמתעסק באודיו -->
+<script src="js/audioScript.js"></script>
+
 </head>
 
 <body class="fullscreen">
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-lg-8">
+            <div class="col-lg-8 d-none">
                  <!-- וידאו -->
                 <div class="camera position-relative d-flex justify-content-center mb-3">
                     <video id="player" class="" autoplay muted playsinline></video>
@@ -96,11 +99,18 @@
                 <!-- כפתור -->
                 <btn id="startBtn" class="btn btn-primary btn-lg btn-block">התחלת ניתוח</btn>
             </div>
+            <div class="col-lg-8">
+                <!-- אודיו-->
+              
+               <!-- כפתור -->
+               <btn id="startBtnAudio" class="btn btn-primary btn-lg btn-block">התחלת ניתוח</btn>
+           </div>
         </div>
         <div class="row">
             <div id="feedback">פה יהיה עוד תוכן על הניתוחים שמבוצעים:</div>
         </div>
     </div>
+    <div id="chart"></div>
 
 
 </body>
