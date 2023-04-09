@@ -13,9 +13,15 @@
     initSkeleton().catch(console.error);
   });
 
+//      //אודיו הוספת מאזין לכפתור הזתחלת ניתוח
+// document.getElementById("startBtnAudio").addEventListener("click", async function () {
+//   initAudio().catch(console.error);
+// });
+  
+
 })
 
-// פונקצייה שפועלת לאחר לחיצה על כפתור התחלה ומפעילה הצגת וידאו
+
 async function startVideo() {
   // נשמור את תג הוידאו לתוך משתנה
   const player = document.getElementById('player');
