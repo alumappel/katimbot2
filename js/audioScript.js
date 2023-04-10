@@ -1,322 +1,19 @@
-// import { PitchAnalyzer } from './pitch-analyzer.js';
-// // add event listener to start audio processing
-// document.getElementById("startBtnAudio").addEventListener("click", async function () {
-//     initAudio().catch(console.error);
-// });
+// Importing libraries
+import { PitchDetector } from "https://esm.sh/pitchy@4";
+
 window.addEventListener("DOMContentLoaded", function () {
     // //אודיו הוספת מאזין לכפתור הזתחלת ניתוח
     document.getElementById("startBtnAudio").addEventListener("click", analyzeAudioFromMicrophone);
-
-
-    // document.getElementById('startBtnAudio').addEventListener('click', () => {
-    //     analyzeAudioFromMicrophone(10000, 100, (dataArray) => {
-    //         // Do something with the dataArray, such as updating a chart
-    //         console.log(dataArray);
-    //     });
-    // });
-
 })
-
-
-//    async function initAudio(){  
-//     console.log("inside initAudio");
-//       // create audio context
-//       const audioContext = new AudioContext();
-
-//       // register audio worklet processor
-//       await audioContext.audioWorklet.addModule('js/audio-worklet-processor.js');
-
-//       // create audio worklet node
-//       const audioWorkletNode = new AudioWorkletNode(audioContext, 'my-audio-worklet-processor');
-
-//       // create pitch analyzer
-//       const pitchAnalyzer = new PitchAnalyzer(audioContext.sampleRate);
-
-//       // initialize audio data array
-//       const audioData = [];
-
-//       // set interval to collect audio data
-//       setInterval(() => {
-//         console.log("inside initerval");
-//         const currentAudioData = audioData.splice(0, audioContext.sampleRate);
-
-//         // calculate average volume
-//         const averageVolume = currentAudioData.reduce((sum, value) => sum + Math.abs(value)) / audioContext.sampleRate;
-
-//         // calculate pitch data
-//         const pitchData = pitchAnalyzer.getPitch(currentAudioData);
-//         const averagePitch = pitchData.frequency;
-//         const minPitch = pitchData.minFrequency;
-//         const maxPitch = pitchData.maxFrequency;
-
-//         // count number of words spoken
-//         // const wordCount = countWords(currentAudioData);
-//         const wordCount =0;
-
-//         // create array of analysis data
-//         const analysisData = [averageVolume, averagePitch, minPitch, maxPitch, wordCount];
-
-//         // add analysis data to audio data array
-//         audioData.push(analysisData);
-//         console.log(audioData);
-
-//         // output analysis data
-//         console.log(analysisData);
-//       }, 10000);
-
-//       // connect audio worklet node to audio context
-//       audioWorkletNode.connect(audioContext.destination);
-
-//       // add message event listener to collect audio data from audio worklet node
-//       audioWorkletNode.port.onmessage = function(event) {
-//         const inputData = event.data;
-//         audioData.push(inputData);
-//       };
-//     }     
-
-//   // function to count number of words spoken
-//   function countWords(audioData) {
-//     // implementation goes here
-//   }
-
-
-// function initAudio() {
-//     // create audio context
-//     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-
-//     // create script processor node to collect audio data
-//     const bufferSize = 2048;
-//     const scriptNode = audioContext.createScriptProcessor(bufferSize, 1, 1);
-//     let audioData = [];
-
-//     // create pitch analyzer
-//     const pitchAnalyzer = new PitchAnalyzer(audioContext.sampleRate);
-
-//     // get microphone input
-//     navigator.mediaDevices.getUserMedia({ audio: true })
-//         .then(function (stream) {
-//             const microphone = audioContext.createMediaStreamSource(stream);
-//             microphone.connect(scriptNode);
-//             scriptNode.connect(audioContext.destination);
-//         })
-//         .catch(function (error) {
-//             console.log('Error getting microphone input:', error);
-//         });
-
-//     // collect audio data every 10 seconds
-//     setInterval(function () {
-//         if (audioData.length >= bufferSize) {
-//             const currentAudioData = audioData.splice(0, bufferSize);
-
-//             //   // calculate average volume
-//             //   const averageVolume = currentAudioData.reduce((sum, value) => sum + Math.abs(value)) / bufferSize;
-
-//             // calculate average volume
-//             let averageVolume;
-//             if (currentAudioData.length > 0) {
-//                 averageVolume = currentAudioData.reduce((sum, value) => sum + Math.abs(value)) / bufferSize;
-//             } else {
-//                 averageVolume = none;
-//             }
-
-
-//             // calculate pitch data
-//             const pitchData = pitchAnalyzer.getPitch(currentAudioData);
-//             const averagePitch = pitchData.frequency;
-//             const minPitch = pitchData.minFrequency;
-//             const maxPitch = pitchData.maxFrequency;
-//             const wordCount = 0 // implement word counting logic
-
-//             // store data in array
-//             const dataArray = [averageVolume, averagePitch, minPitch, maxPitch, wordCount];
-//             // add data array to audio data array
-//             audioData.push(dataArray);
-//             console.log(dataArray);
-//         }
-//     }, 10000);
-
-//     // collect audio data from script processor node
-//     scriptNode.onaudioprocess = function (audioProcessingEvent) {
-//         const inputBuffer = audioProcessingEvent.inputBuffer;
-//         const inputData = inputBuffer.getChannelData(0);
-
-//         // add audio data to array
-//         audioData.push(inputData);
-//         //console.log(audioData);
-//     };
-// }
-
-// function initAudio() {
-//     // create audio context
-//     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-
-//     // create pitch analyzer
-//     const pitchAnalyzer = new PitchAnalyzer(audioContext.sampleRate);
-
-//     // register audio worklet
-//     audioContext.audioWorklet.addModule('worklet.js').then(() => {
-//       // create audio worklet node to collect and analyze audio data
-//       class AudioAnalyzer extends AudioWorkletProcessor {
-//         constructor() {
-//           super();
-//           this.audioData = [];
-//           this.bufferSize = 2048;
-//           this.port.onmessage = this.onmessage.bind(this);
-//         }
-
-//         onmessage(event) {
-//           if (event.data === 'start') {
-//             // get microphone input
-//             navigator.mediaDevices.getUserMedia({ audio: true })
-//               .then((stream) => {
-//                 const source = audioContext.createMediaStreamSource(stream);
-//                 this.port.postMessage({ action: 'source', source: source });
-//               })
-//               .catch((error) => {
-//                 console.log('Error getting microphone input:', error);
-//               });
-//           } else if (event.data === 'analyze') {
-//             if (this.audioData.length >= this.bufferSize) {
-//               const currentAudioData = this.audioData.splice(0, this.bufferSize);
-//               // calculate average volume
-//               let averageVolume;
-//               if (currentAudioData.length > 0) {
-//                 averageVolume = currentAudioData.reduce((sum, value) => sum + Math.abs(value)) / this.bufferSize;
-//               } else {
-//                 averageVolume = 'none';
-//               }
-//               // calculate pitch data
-//               const pitchData = pitchAnalyzer.getPitch(currentAudioData);
-//               const averagePitch = pitchData.frequency;
-//               const minPitch = pitchData.minFrequency;
-//               const maxPitch = pitchData.maxFrequency;
-//               const wordCount = 0; // implement word counting logic
-//               // send data to main thread
-//               this.port.postMessage({
-//                 action: 'data',
-//                 data: [averageVolume, averagePitch, minPitch, maxPitch, wordCount],
-//               });
-//             }
-//           }
-//         }
-
-//         process(inputs, outputs) {
-//           const inputData = inputs[0][0];
-//           // add audio data to array
-//           this.audioData.push(inputData);
-//           return true;
-//         }
-//       }
-
-//       audioContext.audioWorklet.addModule('worklet.js').then(() => {
-//         const analyzerNode = new AudioWorkletNode(audioContext, 'audio-analyzer');
-//         analyzerNode.port.postMessage('start');
-//         setInterval(() => {
-//           analyzerNode.port.postMessage('analyze');
-//         }, 10000);
-//         analyzerNode.port.onmessage = (event) => {
-//           if (event.data.action === 'source') {
-//             const source = event.data.source;
-//             source.connect(analyzerNode);
-//             analyzerNode.connect(audioContext.destination);
-//           } else if (event.data.action === 'data') {
-//             console.log(event.data.data);
-//           }
-//         };
-//       });
-//     });
-//   }
-
-
-
-// function analyzeAudioFromMicrophone(intervalTime, sampleTime, onDataReady) {
-//     // Create an AudioContext object
-//     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-
-//     // Create an AnalyserNode for analyzing the audio data
-//     const analyserNode = audioContext.createAnalyser();
-
-//     // Set the AnalyserNode properties
-//     analyserNode.fftSize = 2048;
-//     analyserNode.smoothingTimeConstant = 0.8;
-
-//     // Create a MediaStreamSourceNode to capture audio from the microphone
-//     navigator.mediaDevices.getUserMedia({audio: true})
-//       .then(stream => {
-//         const sourceNode = audioContext.createMediaStreamSource(stream);
-//         sourceNode.connect(analyserNode);
-//       })
-//       .catch(error => {
-//         console.error('Error accessing microphone:', error);
-//       });
-
-//     // Create an array to store the analyzed data
-//     const dataArray = [];
-
-//     // Create a function to analyze the data
-//     function analyzeData() {
-//       const time = audioContext.currentTime;
-//       const dataArrayItem = [];
-
-//       // Create an array to store the pitch values
-//       const pitchArray = [];
-
-//       // Create a Float32Array to store the frequency data
-//       const frequencyData = new Float32Array(analyserNode.frequencyBinCount);
-
-//       // Get the frequency data from the AnalyserNode
-//       analyserNode.getFloatFrequencyData(frequencyData);
-
-//       // Calculate the average volume
-//       const volume = Math.max(...frequencyData);
-
-//       // Create a PitchFinder object to detect the pitch
-//       const pitchFinder = new window.PitchFinder.YIN({sampleRate: audioContext.sampleRate});
-
-//       // Loop through the frequency data and detect the pitch for each sample
-//       for (let i = 0; i < frequencyData.length; i += sampleTime) {
-//         const frequency = Math.max(...frequencyData.subarray(i, i + sampleTime));
-//         const pitch = pitchFinder.getPitch(frequency);
-//         pitchArray.push(pitch);
-//       }
-
-//       // Calculate the average pitch, minimum pitch, and maximum pitch
-//       const pitchArrayFiltered = pitchArray.filter(pitch => pitch !== null);
-//       const pitchArraySorted = pitchArrayFiltered.sort();
-//       const pitchArrayLength = pitchArrayFiltered.length;
-//       const pitchArrayMidpoint = Math.floor(pitchArrayLength / 2);
-//       const averagePitch = pitchArrayFiltered.reduce((a, b) => a + b, 0) / pitchArrayLength;
-//       const minimumPitch = pitchArraySorted[0];
-//       const maximumPitch = pitchArraySorted[pitchArrayLength - 1];
-
-//       // Add the data to the dataArrayItem
-//       dataArrayItem.push(time, volume, averagePitch, minimumPitch, maximumPitch);
-
-//       // Add the dataArrayItem to the dataArray
-//       dataArray.push(dataArrayItem);
-
-//       // Remove old data from the dataArray
-//       const oldestTime = dataArray[0][0];
-//       while (dataArray.length > 0 && dataArray[0][0] + intervalTime < oldestTime) {
-//         dataArray.shift();
-//       }
-
-//       // Call the onDataReady callback function with the dataArray
-//       onDataReady(dataArray);
-
-//       // Call the analyzeData function again after the intervalTime has elapsed
-//       setTimeout(analyzeData, intervalTime);
-//     }
-
-//     // Start analyzing the data
-//     analyzeData();
-//   }
 
 
 function analyzeAudioFromMicrophone() {
     const dataArry = [];
     // Set up audio context and media stream
     const audioContext = new AudioContext();
+    // Create an AnalyserNode instance to analyze the audio signal
+    const analyserNode = audioContext.createAnalyser();
+
     navigator.mediaDevices.getUserMedia({ audio: true })
         .then((stream) => {
             const source = audioContext.createMediaStreamSource(stream);
@@ -329,6 +26,10 @@ function analyzeAudioFromMicrophone() {
             // Set up variables to hold audio data
             let audioBuffer = [];
             let tempBuffer = [];
+
+            // Create a PitchDetector instance for the given FFT size of the AnalyserNode
+            const detector = PitchDetector.forFloat32Array(analyserNode.fftSize);
+
 
             // Process audio data
             scriptNode.onaudioprocess = (event) => {
@@ -364,16 +65,49 @@ function analyzeAudioFromMicrophone() {
                     const avgVolume = 20 * Math.log10(rmsAmplitude / reference);
 
 
+                    // here should bee the pich code
+                    // Use the pitch detector to find the pitch and clarity of the audio signal
+                    const [pitch, clarity] = detector.findPitch(tempBuffer.slice(-2048), audioContext.sampleRate);
+                    //Calculate  the pitch in Hz
+                    const pitchInHz = Math.round(pitch * 10) / 10;
+                    // const pitchClarity= Math.round(clarity * 100);
 
-                    dataArry.push([maxVolume, minVolume,avgVolume])
+
+                    dataArry.push([maxVolume, minVolume, avgVolume, pitchInHz])
                     console.log(dataArry);
+
 
                 }
             };
         })
-        .catch((error) => console.error(error));
-
+    .catch((error) => console.error(error));
 }
+
+
+
+
+
+
+// function calculateAveragePitch(tempBuffer) {
+//     // Set up the pitch detection algorithm
+//     const pitchDetector = new PitchFinder.YIN();
+  
+//     // Get the pitch for each chunk of audio data in the buffer
+//     const pitches = tempBuffer.reduce((acc, chunk) => {
+//       const pitch = pitchDetector(chunk, sampleRate);
+//       if (pitch !== null) {
+//         acc.push(pitch);
+//       }
+//       return acc;
+//     }, []);
+  
+//     // Calculate the average pitch
+//     const avgPitch = pitches.reduce((sum, pitch) => sum + pitch, 0) / pitches.length;
+  
+//     return avgPitch;
+//   }
+                      
+
 
 // and an AnalyserNode object to analyze the audio data
 // Set the desired buffer size and sample rate for the analyzer
