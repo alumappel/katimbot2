@@ -11,7 +11,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 
-    <title>קתימבוט2 </title>
+    <title>קתימבוט 2</title>
 
     <!--favicon-->
 
@@ -65,31 +65,32 @@
 
 
     <!-- זיהוי וידיאו ויצירת שלד באמצעות  -->
-    <!-- movenet -->    
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core"></script>
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter"></script>
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/pose-detection"></script>
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl"></script>
+    <!-- movenet -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/pose-detection"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl"></script>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
 
 
-<!-- קישור לתסריט שמתעסק בזה -->
-<script src="js/moveNetScript.js"></script>
+    <!-- קישור לתסריט שמתעסק בוידיאו -->
+    <script src="js/moveNetScript.js"></script>
 
-<!-- סקריפט לשימוש בגרפים -->
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <!-- סקריפט לשימוש בגרפים -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
-<!-- Web Audio API -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/web-animations/2.3.2/web-animations.min.js"></script>
+    <!-- Web Audio API -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/web-animations/2.3.2/web-animations.min.js"></script>
 
-<!-- Pitch.js -->
-<script src="https://cdn.jsdelivr.net/npm/pitch-js@0.0.6/dist/pitch.min.js"></script>
+    <!-- VAD.js -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@ricky0123/vad-web@0.0.7/dist/bundle.min.js"></script> -->
+    <script type="text/javascript" src="js/VAD.js"></script>
 
-
-<!-- קישור לתסריט שמתעסק באודיו -->
-<script type="module" src="js/audioScript.js"></script>
+    <!-- קישור לתסריט שמתעסק באודיו -->
+    <script type="module" src="js/audioScript.js"></script>
 
 
 
@@ -100,7 +101,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-8 d-none">
-                 <!-- וידאו -->
+                <!-- וידאו -->
                 <div class="camera position-relative d-flex justify-content-center mb-3">
                     <video id="player" class="" autoplay muted playsinline></video>
                     <canvas id="canvas" width="640" height="480"></canvas>
@@ -111,10 +112,10 @@
             </div>
             <div class="col-lg-8">
                 <!-- אודיו-->
-              
-               <!-- כפתור -->
-               <btn id="startBtnAudio" class="btn btn-dark btn-lg btn-block">התחלת ניתוח</btn>
-           </div>
+
+                <!-- כפתור -->
+                <btn id="startBtnAudio" class="btn btn-dark btn-lg btn-block">התחלת ניתוח</btn>
+            </div>
         </div>
         <div class="row">
             <div id="feedback">פה יהיה עוד תוכן על הניתוחים שמבוצעים:</div>

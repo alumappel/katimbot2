@@ -1,6 +1,7 @@
 // Importing libraries
 import { PitchDetector } from "https://esm.sh/pitchy@4";
 
+
 window.addEventListener("DOMContentLoaded", function () {
     // //אודיו הוספת מאזין לכפתור הזתחלת ניתוח
     document.getElementById("startBtnAudio").addEventListener("click", analyzeAudioFromMicrophone);
@@ -85,50 +86,111 @@ function analyzeAudioFromMicrophone() {
 
 
 
-
-
-
-// function calculateAveragePitch(tempBuffer) {
-//     // Set up the pitch detection algorithm
-//     const pitchDetector = new PitchFinder.YIN();
+// async function getWordsPerMinute() {
+//     // // Create an instance of VAD.js
+//     // const vad = new VAD(VAD.Mode.NORMAL);
   
-//     // Get the pitch for each chunk of audio data in the buffer
-//     const pitches = tempBuffer.reduce((acc, chunk) => {
-//       const pitch = pitchDetector(chunk, sampleRate);
-//       if (pitch !== null) {
-//         acc.push(pitch);
+//     // Create an instance of Web Audio API
+//     const audioContext = new AudioContext();
+//     const mediaStreamSource = await navigator.mediaDevices.getUserMedia({ audio: true });
+//     const source = audioContext.createMediaStreamSource(mediaStreamSource);
+
+//     // Setup options
+//     var options = {
+//         source: source,
+//         voice_stop: function() {console.log('voice_stop');}, 
+//         voice_start: function() {console.log('voice_start');}
+//        }; 
+       
+//        // Create VAD
+//        var vad = new VAD(options);
+     
+  
+//     // Create a script processor node
+//     const scriptProcessorNode = audioContext.createScriptProcessor(4096, 1, 1);
+//     let wordCount = 0;
+//     let startTime = null;
+//     let wordsPerMinute = null;
+//     scriptProcessorNode.onaudioprocess = (event) => {
+//       const inputBuffer = event.inputBuffer.getChannelData(0);
+//       const vadResult = vad.process(inputBuffer);
+//       if (vadResult === VAD.Event.VOICE) {
+//         if (startTime === null) {
+//           startTime = Date.now();
+//         }
+//         const words = inputBuffer.split(' ');
+//         wordCount += words.length;
+//       } else {
+//         if (startTime !== null) {
+//           const elapsedTimeInSeconds = (Date.now() - startTime) / 1000;
+//           wordsPerMinute = wordCount / elapsedTimeInSeconds * 60;
+//           wordCount = 0;
+//           startTime = null;
+//         }
 //       }
-//       return acc;
-//     }, []);
+//     };
   
-//     // Calculate the average pitch
-//     const avgPitch = pitches.reduce((sum, pitch) => sum + pitch, 0) / pitches.length;
+//     // Connect the nodes
+//     source.connect(scriptProcessorNode);
+//     scriptProcessorNode.connect(audioContext.destination);
   
-//     return avgPitch;
+//     // return wordsPerMinute;
+//     console.log("wordsPerMinute: "+wordsPerMinute);
 //   }
-                      
 
 
-// and an AnalyserNode object to analyze the audio data
-// Set the desired buffer size and sample rate for the analyzer
-// Set the minimum and maximum frequencies to analyze
-// Set the number of FFT bins for the analyzer
-// Set the time interval for collecting and analyzing audio data
-// Create an empty array to store the analyzed data for each interval
 
-// Define a function that starts the audio stream and analysis process
-  // Request access to the user's microphone
-  // Create a MediaStreamSourceNode to receive the microphone input
-  // Connect the source node to the analyzer node
-  // Create an array to store the analyzed data for each 10-second interval
-  // Define a function that analyzes the audio data and stores the results
-    // Create a new Float32Array to store the frequency data
-    // Collect the frequency data from the analyzer node
-    // Calculate the average volume of the frequency data
-    // Calculate the average pitch of the frequency data
-    // Calculate the minimum pitch of the frequency data
-    // Calculate the maximum pitch of the frequency data
-    // Store the analyzed data in an array
-    // If the array length exceeds the desired number of intervals, remove the first element
-  // Set an interval to collect and analyze audio data every 10 seconds
-  // Return the array of analyzed data for each interval
+
+
+
+
+
+
+
+
+
+// async function getWordsPerMinute() {
+// // const vad = require('js/VAD.js');
+
+// const audioContext = new AudioContext();
+
+// navigator.mediaDevices.getUserMedia({ audio: true })
+//         .then((stream) => {  
+ 
+//   const source = audioContext.createMediaStreamSource(stream);
+
+//      // Setup options
+//      var options = {
+//         source: source,
+//         voice_stop: function() {console.log('voice_stop');}, 
+//         voice_start: function() {console.log('voice_start');},
+//         voice_stop_sensitivity: 0.1,
+//         voice_start_sensitivity: 1.0
+        
+//        }; 
+// var vad = new VAD(options);
+
+
+//   const vadStream = vad.createStream(audioContext.sampleRate);
+
+//   source.connect(vadStream);
+
+//   let startTime = new Date().getTime();
+//   let endTime = new Date().getTime() + 60000;
+
+//   let nbrOfWords = 0;
+//   let minutes = (endTime - startTime) / 60000;
+//   let wpm = nbrOfWords / minutes;
+
+//   vadStream.on('data', function (speech) {
+//     if (speech) {
+//       nbrOfWords++;
+//     }
+//   });
+
+//   console.log(wpm);
+// });
+// }
+
+
+
