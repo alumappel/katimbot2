@@ -1,4 +1,8 @@
-﻿window.addEventListener("DOMContentLoaded", function () {
+﻿// משתנים לגודל הוידיאו מהמצלמה
+let videoHeight;
+let videoWidth;
+
+window.addEventListener("DOMContentLoaded", function () {
   // בדיקה שיש תמיחה בווידיאו
   // וקריאה לפונקצייה שמתחילה להזרים וידיאו
   if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices) {
@@ -10,7 +14,7 @@
 
   // הוספת מאזין לכפתור הזתחלת ניתוח
   document.getElementById("startBtn").addEventListener("click", function () {
-    initSkeleton().catch(console.error);
+    initSkeleton(videoHeight,videoWidth).catch(console.error);
   });
 
 //      //אודיו הוספת מאזין לכפתור הזתחלת ניתוח
@@ -25,7 +29,7 @@
 async function startVideo() {
   // נשמור את תג הוידאו לתוך משתנה
   const player = document.getElementById('player');
-  // נגדיר דרישות למדיה - נרצה להציג רק וידאו מהמצלמה האחורית
+  // נגדיר דרישות למדיה - נרצה להציג רק וידאו 
   const constraints = {
     audio: false,
     video: {
@@ -36,6 +40,11 @@ async function startVideo() {
   navigator.mediaDevices.getUserMedia(constraints)
     .then(function (mediaStream) {
       player.srcObject = mediaStream;
+      player.addEventListener('loadedmetadata', function() {
+       videoWidth = player.videoWidth;
+       videoHeight = player.videoHeight;
+       console.log("videoWidth:"+ videoWidth+"videoHeight:"+ videoHeight);
+      });
     })
     .catch(function (err) { console.log(err.name + ": " + err.message); });
 }
@@ -45,7 +54,9 @@ function startAudioChart() {
   const chartOptions = {
     chart: {
       type: 'line',
-      height: 120,
+      height: '90vh',
+      width: '70%',
+      padding: 0,
       animations: {
         enabled: false,
       },

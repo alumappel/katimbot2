@@ -1,7 +1,7 @@
 let runDetector = true;
-let runFrame = false;
+let runFrame = true;
 let runHands = false;
-let runEyes = true;
+let runEyes = false;
 
 let frameCount = 0;
 const frameNumForCalculate = 30;
@@ -16,18 +16,18 @@ let eyesLocation =[];
 
 
 // פונקצייה שמכינה את כל מה שצריך כדי להתחיל לאסוף וידיאו ולנתח אותו 
-async function initSkeleton() {
+async function initSkeleton(videoHeight,videoWidth) { 
   const video = document.getElementById('player');
-  const canvas = document.getElementById('canvas');
-  const ctx = canvas.getContext('2d');
+  //const canvas = document.getElementById('canvas1');
+  //const ctx = canvas.getContext('2d');
   const detector = await poseDetection.createDetector(
     poseDetection.SupportedModels.MoveNet,
     { modelType: poseDetection.movenet.modelType.SINGLEPOSE_THUNDER }
   );
-
+ 
   // פונקצייה שחוזרת כל פריים ומבצעת ניתוח על הוידיאו יחד עם הצגה של שלד
   async function redraw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    //ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // ספירת הפריים
     frameCount++;
@@ -41,31 +41,31 @@ async function initSkeleton() {
       if (poses.length > 0) {
         const keypoints = poses[0].keypoints;
 
-        // Draw keypoints
-        keypoints.forEach(keypoint => {
-          if (keypoint.score > 0.4) {
-            ctx.beginPath();
-            ctx.arc(keypoint.x, keypoint.y, 5, 0, 2 * Math.PI);
-            ctx.fillStyle = 'red';
-            ctx.fill();
-          }
-        });
+        // // Draw keypoints
+        // keypoints.forEach(keypoint => {
+        //   if (keypoint.score > 0.4) {
+        //     ctx.beginPath();
+        //     ctx.arc(keypoint.x, keypoint.y, 5, 0, 2 * Math.PI);
+        //     ctx.fillStyle = 'red';
+        //     ctx.fill();
+        //   }
+        // });
 
-        // Draw lines between keypoints
-        const pairs = poseDetection.util.getAdjacentPairs(poseDetection.SupportedModels.MoveNet);
-        pairs.forEach(pair => {
-          const from = keypoints[pair[0]];
-          const to = keypoints[pair[1]];
-          ctx.beginPath();
-          ctx.moveTo(from.x, from.y);
-          ctx.lineTo(to.x, to.y);
-          ctx.strokeStyle = 'blue';
-          ctx.stroke();
-        });
+        // // Draw lines between keypoints
+        // const pairs = poseDetection.util.getAdjacentPairs(poseDetection.SupportedModels.MoveNet);
+        // pairs.forEach(pair => {
+        //   const from = keypoints[pair[0]];
+        //   const to = keypoints[pair[1]];
+        //   ctx.beginPath();
+        //   ctx.moveTo(from.x, from.y);
+        //   ctx.lineTo(to.x, to.y);
+        //   ctx.strokeStyle = 'blue';
+        //   ctx.stroke();
+        // });
 
 
         // קריאה למיקום בפריים
-        fullBodyInFrame(keypoints);
+        fullBodyInFrame(keypoints,videoHeight,videoWidth);
         // קריאה לתנועות ידיים
         handsMovment(keypoints);
         // קריא לבדיקת מבט
@@ -84,7 +84,7 @@ async function initSkeleton() {
 }
 
 // פונקצייה שבודקת מיקום בפריים
-function fullBodyInFrame(keypoints) {
+function fullBodyInFrame(keypoints,videoHeight,videoWidth) {
   //בדיקה שיש רצון לבצע ניתוח
   if (runFrame == true) {
     //בדיקה של אברים בפריים
@@ -96,9 +96,9 @@ function fullBodyInFrame(keypoints) {
     let bottomLeft = false;
     // הגדרת ערכי גבולות
     let leftBorder = 20 + 5;
-    let rightBorder = 620 - 5;
+    let rightBorder = videoWidth - 5;
     let topBorder = 35 + 5;
-    let bottomBorder = 450 - 5;
+    let bottomBorder = videoHeight - 5;
 
     // בדיקת וודאות בזיהוי נקודה
     if (keypoints[1].score > 0.4 && keypoints[3].score > 0.4) {

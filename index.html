@@ -98,14 +98,84 @@
 </head>
 
 <body class="fullscreen">
-    <div class="container">
+    <div class="container" style="background-color: aqua; height: 100vh; max-width: 95vw;">
+        <div class="row" style="padding-top: 2%;">
+            <div class="col flex-column" style="height: 90vh;background-color:rgb(0, 255, 42)">
+                
+                <div class="row bg-black justify-content-center align-items-center" style="height: 50vh;">
+                    <div class="camera position-relative ">
+                        <video id="player" class=""  autoplay muted playsinline></video>
+                        <canvas id="canvas1" ></canvas>
+                </div>
+                
+                </div>
+                <div class="row bg-danger chart-container justify-content-center align-items-center" style="height: 15vh;"> 
+                    <div id="chart"></div>
+                    </div>
+                <div class="row bg-light justify-content-center align-items-center" style="height: 15vh;">
+                    pp2
+                </div>
+            </div>
+
+
+
+            <div class="col-6">
+                <div class="row" style="height: 27vh;margin-bottom: 5vh;">
+                    <div class="col-8 bg-warning position-relative">
+                        <p>תנועות ידיים</p>
+                        <div class="row  justify-content-around">
+                        <div class="col-5 bg-info">
+                            <p>ימין</p>
+                            <p id="rightHandFeedback"></p>
+                        </div>
+                        <div class="col-5 bg-light">
+                            <p>שמאל</p>
+                            <p id="leftHandFeedback"> היד מוסתרת</p>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="col  bg-secondary">
+                        <p>מבט למצלמה</p>
+                        <p id="eyesFeedback"></p>
+                    </div>
+                </div>
+                <div class="row" style="height: 27vh;margin-bottom: 5vh;">
+                    <div class="col-8 bg-success">
+                        <p>עוצמת קול</p>
+                    </div>
+                    <div class="col  bg-primary">
+                        <p>גיוון בדיבור</p>
+                        <p id="pitchFeedback"></p>
+                    </div>
+                </div>
+                <div class="row" style="height: 26vh;">
+                    <div class="col-8 bg-info">
+                        <p>קצב דיבור</p>
+                    </div>
+                    <div class="col bg-warning">
+                        <btn id="startBtn" class="btn btn-primary btn-lg btn-block">התחלת ניתוח</btn>
+                        <div id="feedback">פה יהיה עוד תוכן על הניתוחים שמבוצעים:</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+    <div class="container d-none">
         <div class="row justify-content-center">
             <div class="col-lg-8 d-none">
                 <!-- וידאו -->
-                <div class="camera position-relative d-flex justify-content-center mb-3">
+                <!-- <div class="camera position-relative d-flex justify-content-center mb-3">
                     <video id="player" class="" autoplay muted playsinline></video>
                     <canvas id="canvas" width="640" height="480"></canvas>
-                </div>
+                </div> -->
 
                 <!-- כפתור -->
                 <btn id="startBtn" class="btn btn-primary btn-lg btn-block">התחלת ניתוח</btn>
@@ -121,7 +191,7 @@
             <div id="feedback">פה יהיה עוד תוכן על הניתוחים שמבוצעים:</div>
         </div>
     </div>
-    <div id="chart"></div>
+    <!-- <div id="chart" class="d-none"></div> -->
 
 
 </body>
