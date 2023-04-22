@@ -1,7 +1,7 @@
 let runDetector = true;
 let runFrame = true;
-let runHands = false;
-let runEyes = false;
+let runHands = true;
+let runEyes = true;
 
 let frameCount = 0;
 const frameNumForCalculate = 30;
@@ -237,31 +237,71 @@ function handsMovment(keypoints) {
 
       //  ביצוע חישוב והדפסה
       const minMargin = 30;
-      document.getElementById("feedback").innerHTML = "";
-      document.getElementById("feedback").innerHTML += "יד ימין: " + "</br>";
+      const rightelement=document.getElementById("rightHandDiv");
+      const leftelement=document.getElementById("leftHandDiv");
+      document.getElementById("rightHandFeedback").innerHTML = "";
+      document.getElementById("leftHandFeedback").innerHTML = "";
+      
       if (rightNotShowCount > frameNumForCalculate / 2) {
-        document.getElementById("feedback").innerHTML += "שים לב לא להסתיר את היד " + "</br>";
+        if (rightelement.classList.contains("greenG")) {
+          rightelement.classList.remove("greenG");
+        }
+        rightelement.classList.add("redG");
+        document.getElementById("rightHandFeedback").innerHTML += "היד מוסתרת מהמצלמה";
       }
       else {
         if (rightXMax - rightXMin > minMargin && rightYMax - rightYMin > minMargin) {
-          document.getElementById("feedback").innerHTML += "כל הכבוד! יש תנועה מספקת עם היד" + "</br>";
+          if (rightelement.classList.contains("redG")) {
+            rightelement.classList.remove("redG");
+          }
+          rightelement.classList.add("greenG");
+          // document.getElementById("feedback").innerHTML += "כל הכבוד! יש תנועה מספקת עם היד" + "</br>";
         }
         else {
-          document.getElementById("feedback").innerHTML += "אינך מזיז/ה את היד מספיק" + "</br>";
+          if (rightelement.classList.contains("greenG")) {
+            rightelement.classList.remove("greenG");
+          }
+          rightelement.classList.add("redG");
+          document.getElementById("rightHandFeedback").innerHTML += "אינך מזיז/ה את היד מספיק";
         }
       }
-      document.getElementById("feedback").innerHTML += "יד שמאל: " + "</br>";
+   
       if (leftNotShowCount > frameNumForCalculate / 2) {
-        document.getElementById("feedback").innerHTML += "שים לב לא להסתיר את היד " + "</br>";
+        if (leftelement.classList.contains("greenG")) {
+          leftelement.classList.remove("greenG");
+        }
+        leftelement.classList.add("redG");
+        document.getElementById("leftHandFeedback").innerHTML += "היד מוסתרת מהמצלמה" ;
       }
       else {
         if (leftXMax - leftXMin > minMargin && leftYMax - leftYMin > minMargin) {
-          document.getElementById("feedback").innerHTML += "כל הכבוד! יש תנועה מספקת עם היד" + "</br>";
+          if (leftelement.classList.contains("redG")) {
+            leftelement.classList.remove("redG");
+          }
+          leftelement.classList.add("greenG");
+          // document.getElementById("feedback").innerHTML += "כל הכבוד! יש תנועה מספקת עם היד" + "</br>";
         }
         else {
-          document.getElementById("feedback").innerHTML += "אינך מזיז/ה את היד מספיק" + "</br>";
+          if (leftelement.classList.contains("greenG")) {
+            leftelement.classList.remove("greenG");
+          }
+          leftelement.classList.add("redG");
+          document.getElementById("leftHandFeedback").innerHTML += "אינך מזיז/ה את היד מספיק";
         }
       }
+      if (leftelement.classList.contains("redG")||rightelement.classList.contains("redG")) {
+        if(document.getElementById("handsDiv").classList.contains("greenG")) {
+          document.getElementById("handsDiv").classList.remove("greenG");          
+        }
+        document.getElementById("handsDiv").add("redG");
+      }
+      else if(leftelement.classList.contains("greenG")&&rightelement.classList.contains("greenG")){
+        if(document.getElementById("handsDiv").classList.contains("redG")) {
+          document.getElementById("handsDiv").classList.remove("redG");          
+        }
+        document.getElementById("handsDiv").add("greenG");
+      }
+      
     }
   }
 }
@@ -298,12 +338,21 @@ function eyeTocamra(keypoints) {
         }
 
         // הדפסה
-        document.getElementById("feedback").innerHTML = "";
+        const element = document.getElementById("eyesDiv");
+        document.getElementById("eyesFeedback").innerHTML = "";
         if (rightNotShowCount > frameNumForCalculate / 2 || leftNotShowCount > frameNumForCalculate / 2) {
-          document.getElementById("feedback").innerHTML += "שים לב להסתכל למצלמה " + "</br>";
+          if (element.classList.contains("greenG")) {
+            element.classList.remove("greenG");
+          }
+          element.classList.add("redG");
+          document.getElementById("eyesFeedback").innerHTML += "שים לב להסתכל למצלמה " + "</br>";
         }
         else{
-          document.getElementById("feedback").innerHTML += "מבט למצלמה מעולה!" + "</br>";
+          if (element.classList.contains("redG")) {
+            element.classList.remove("redG");
+          }
+          element.classList.add("greenG");
+          // document.getElementById("feedback").innerHTML += "מבט למצלמה מעולה!" + "</br>";
         }
     }
   }

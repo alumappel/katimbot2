@@ -42,8 +42,7 @@ async function startVideo() {
       player.srcObject = mediaStream;
       player.addEventListener('loadedmetadata', function() {
        videoWidth = player.videoWidth;
-       videoHeight = player.videoHeight;
-       console.log("videoWidth:"+ videoWidth+"videoHeight:"+ videoHeight);
+       videoHeight = player.videoHeight;       
       });
     })
     .catch(function (err) { console.log(err.name + ": " + err.message); });
