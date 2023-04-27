@@ -130,6 +130,33 @@ body {
   background-image:linear-gradient(180deg,  rgba(236, 240, 255, 0.5) 60%, #9CF097 100%);
 }
 
+.red-outline{
+    box-sizing: border-box;
+    border: 5px solid ;
+    border-color: var(--red);
+    padding: 15px;
+    border-radius: 1rem;    
+    width: 97%;
+    height: 97%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.green-outline{
+    box-sizing: border-box;
+    border: 5px solid ;
+    border-color: var(--green);
+    padding: 15px;
+    border-radius: 1rem;    
+    width: 97%;
+    height: 97%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 /* .section {
     width: 96%;
     margin: 0 auto;

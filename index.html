@@ -60,8 +60,7 @@
 
     <!-- bootstrap -->
     <script src="js/bootstrap.bundle.js"></script>
-    <!-- קישור לקובץ ה-js -->
-    <script src="js/main.js"></script>
+
 
 
     <!-- זיהוי וידיאו ויצירת שלד באמצעות  -->
@@ -84,13 +83,14 @@
     <!-- Web Audio API -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/web-animations/2.3.2/web-animations.min.js"></script>
 
-    <!-- VAD.js -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@ricky0123/vad-web@0.0.7/dist/bundle.min.js"></script> -->
+    <!-- VAD.js --> 
     <script type="text/javascript" src="js/VAD.js"></script>
 
     <!-- קישור לתסריט שמתעסק באודיו -->
-    <script type="module" src="js/audioScript.js"></script>
+    <script type="module" src="js/audioScript.js" defer lang="javascript"></script>
+
+        <!-- קישור לקובץ ה-js -->
+        <script type="module" src="js/main.js"></script>
 
 
 
@@ -103,17 +103,18 @@
             <div class="col-6 flex-column bg " style="height: 90vh;padding-left: 2rem;padding-right: 2rem;">
                 
                 <div class="row bg-opacity-0 justify-content-center align-items-center" style="height: 50vh;padding-top: 1rem;">
-                    <div class="camera position-relative bg-video">
+                    <div class="camera position-relative bg-video ">
                         <video id="player" class=""  autoplay muted playsinline></video>
                         <canvas id="canvas1" ></canvas>
+                        <div id="overlayBorderColor" class="overlay position-absolute" ></div>
                 </div>
                 
                 </div>
                 <div class="row bg chart-container justify-content-center align-items-center" style="height: 15vh;"> 
                     <div id="chart"></div>
                     </div>
-                <div class="row bg justify-content-center align-items-center" style="height: 15vh;margin-top: 1rem;">
-                    pp2
+                <div class=" row bg justify-content-center align-items-center" style="height: 15vh;margin-top: 1rem;">
+                   <h3 id="timer" style="width: auto;">00:00</h3>
                 </div>
             </div>
 
@@ -143,7 +144,7 @@
                     <div class="col-7 bg">
                         <h3>עוצמת קול</h3>
                     </div>
-                    <div class="col-4  bg">
+                    <div id="pitchDiv" class="col-4  bg">
                         <h3>גיוון בדיבור</h3>
                         <p id="pitchFeedback"></p>
                     </div>
@@ -152,9 +153,8 @@
                     <div class="col-7 bg">
                         <h3>קצב דיבור</h3>
                     </div>
-                    <div class="col-4 bg ">
-                        <btn id="startBtn" class="btn btn-primary btn-lg btn-block">התחלת ניתוח</btn>
-                        <div id="feedback">פה יהיה עוד תוכן על הניתוחים שמבוצעים:</div>
+                    <div class="col-4 d-flex align-items-center justify-content-center">
+                        <btn id="startBtn" class="btn btn-primary btn-lg btn-block">התחלת ניתוח</btn>                        
                     </div>
                 </div>
             </div>

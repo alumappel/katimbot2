@@ -147,10 +147,16 @@ function fullBodyInFrame(keypoints,videoHeight,videoWidth) {
 
     // הדפסת משוב
     if (topRight == false || topLeft == false || bodyLeft == false || bodyRight == false || bottomLeft == false || bottomRight == false) {
-      document.getElementById("feedback").innerHTML = "לא תקין ";
+      if (document.getElementById("overlayBorderColor").classList.contains("green-outline")) {
+        document.getElementById("overlayBorderColor").classList.remove("green-outline");
+      }
+      document.getElementById("overlayBorderColor").classList.add("red-outline");
     }
     else {
-      document.getElementById("feedback").innerHTML = "תקין ";
+      if (document.getElementById("overlayBorderColor").classList.contains("red-outline")) {
+        document.getElementById("overlayBorderColor").classList.remove("red-outline");
+      }
+      document.getElementById("overlayBorderColor").classList.add("green-outline");
     }
   }
 }
@@ -293,13 +299,13 @@ function handsMovment(keypoints) {
         if(document.getElementById("handsDiv").classList.contains("greenG")) {
           document.getElementById("handsDiv").classList.remove("greenG");          
         }
-        document.getElementById("handsDiv").add("redG");
+        document.getElementById("handsDiv").classList.add("redG");
       }
       else if(leftelement.classList.contains("greenG")&&rightelement.classList.contains("greenG")){
         if(document.getElementById("handsDiv").classList.contains("redG")) {
           document.getElementById("handsDiv").classList.remove("redG");          
         }
-        document.getElementById("handsDiv").add("greenG");
+        document.getElementById("handsDiv").classList.add("greenG");
       }
       
     }

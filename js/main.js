@@ -1,4 +1,6 @@
-﻿// משתנים לגודל הוידיאו מהמצלמה
+﻿import { analyzeAudioFromMicrophone } from "./audioScript.js";
+
+// משתנים לגודל הוידיאו מהמצלמה
 let videoHeight;
 let videoWidth;
 
@@ -13,9 +15,10 @@ window.addEventListener("DOMContentLoaded", function () {
   }
 
   // הוספת מאזין לכפתור הזתחלת ניתוח
-  document.getElementById("startBtn").addEventListener("click", function () {
-    initSkeleton(videoHeight,videoWidth).catch(console.error);
-  });
+  document.getElementById("startBtn").addEventListener("click", startAnalysis);
+  // document.getElementById("startBtn").addEventListener("click", function () {
+  //   initSkeleton(videoHeight,videoWidth).catch(console.error);
+  // });
 
 //      //אודיו הוספת מאזין לכפתור הזתחלת ניתוח
 // document.getElementById("startBtnAudio").addEventListener("click", async function () {
@@ -24,6 +27,8 @@ window.addEventListener("DOMContentLoaded", function () {
   
 
 })
+
+
 
 
 async function startVideo() {
@@ -77,6 +82,7 @@ function startAudioChart() {
         show: false,
       },
     },
+    colors: ['#AE9CE6'] // sets line color to red
   };
   
   
@@ -128,3 +134,36 @@ function startAudioChart() {
       console.error(error);
     });
 }
+
+function startAnalysis(){  
+  initSkeleton(videoHeight,videoWidth);
+  analyzeAudioFromMicrophone();
+  startTimer();
+}
+
+
+function startTimer() {
+  // Get the current time in milliseconds
+  var startTime = new Date().getTime();
+
+  // Set up a timer that fires every second
+  var timer = setInterval(function() {
+    // Get the current time in milliseconds
+    var currentTime = new Date().getTime();
+
+    // Calculate the elapsed time in seconds
+    var elapsedTime = (currentTime - startTime) / 1000;
+
+    // Floor the minutes and seconds
+    var minutes = Math.floor(elapsedTime / 60);
+    var seconds = Math.floor(elapsedTime % 60);
+
+    // Format the elapsed time as MM:SS
+    var formattedElapsedTime = minutes + ":" + (seconds < 10 ? "0" + seconds : seconds);
+
+    // Update the text box with the elapsed time
+    document.getElementById("timer").innerHTML = formattedElapsedTime;
+  }, 1000);
+}
+
+
