@@ -43,6 +43,8 @@ export function analyzeAudioFromMicrophone() {
                     tempBuffer = audioBuffer.slice();
                     audioBuffer = [];
 
+
+
                     // Calculate max and min volume in dB
                     const reference = 1.0;
                     let maxAmplitude = -Infinity;
@@ -78,22 +80,24 @@ export function analyzeAudioFromMicrophone() {
                         //Calculate  the pitch in Hz
                         const pitchInHz = Math.round(pitch * 10) / 10;
                         for (let i = 0; i < tempBuffer.length; i++) {
-                            if (pichMax !== undefined) {
-                                if (pitchInHz > pichMax) {
+                            if(pitchInHz >= 300 && pitchInHz <= 3400){
+                                if (pichMax !== undefined) {
+                                    if (pitchInHz > pichMax) {
+                                        pichMax = pitchInHz;
+                                    }
+                                }
+                                else {
                                     pichMax = pitchInHz;
                                 }
-                            }
-                            else {
-                                pichMax = pitchInHz;
-                            }
 
-                            if (pichMin !== undefined) {
-                                if (pitchInHz < pichMin) {
+                                if (pichMin !== undefined) {
+                                    if (pitchInHz < pichMin) {
+                                        pichMin = pitchInHz;
+                                    }
+                                }
+                                else {
                                     pichMin = pitchInHz;
                                 }
-                            }
-                            else {
-                                pichMin = pitchInHz;
                             }
                         }
                     }
@@ -111,14 +115,19 @@ export function analyzeAudioFromMicrophone() {
         .catch((error) => console.error(error));
 }
 
+
+
+
+
+
 //show dataArry live
 function showDataArry(dataArry) {
     console.log("show data");
     //pitch
     const pitchElement = document.getElementById("pitchDiv");
-    console.log("max: " +dataArry[dataArry.length-1][3]+ "min: "+dataArry[dataArry.length-1][4]);
+    console.log("max: " + dataArry[dataArry.length - 1][3] + "min: " + dataArry[dataArry.length - 1][4]);
     if (dataArry.length <= 2) {
-        if (dataArry[0][3] - dataArry[0][4] > 5) {
+        if (dataArry[0][3] - dataArry[0][4] > 20) {
             if (pitchElement.classList.contains("redG")) {
                 pitchElement.classList.remove("redG");
             }
@@ -148,7 +157,7 @@ function showDataArry(dataArry) {
         }
 
 
-        if (max20Seconds - min20Seconds > 5) {
+        if (max20Seconds - min20Seconds > 20) {
             if (pitchElement.classList.contains("redG")) {
                 pitchElement.classList.remove("redG");
             }
