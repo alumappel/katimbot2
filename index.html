@@ -52,14 +52,14 @@
 
     <!-- bootstrap -->
     <link rel="stylesheet" href="./css/bootstrap.rtl.min.css">
+    <script src="js/bootstrap.bundle.js"></script>
     <!-- css -->
     <link rel="stylesheet" href="css/style.css">
 
     <!-- manifest.json file -->
     <link rel="manifest" href="./manifest.json">
 
-    <!-- bootstrap -->
-    <script src="js/bootstrap.bundle.js"></script>
+   
 
 
 
@@ -142,7 +142,8 @@
                 </div>
                 <div class="row justify-content-around" style="height: 27vh;margin-bottom: 5vh;">
                     <div class="col-7 bg">
-                        <h3>עוצמת קול</h3>
+                        <h3 style="margin-bottom: 1rem;">עוצמת קול</h3>
+                        <input type="range"  min="30" max="90" value="60" class="slider reset-range" id="volRange"  >
                     </div>
                     <div id="pitchDiv" class="col-4  bg">
                         <h3>גיוון בדיבור</h3>

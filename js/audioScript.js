@@ -106,7 +106,7 @@ export function analyzeAudioFromMicrophone() {
 
                     dataArry.push([maxVolume, minVolume, avgVolume, pichMax, pichMin]);
                     showDataArry(dataArry);
-                    //console.log(dataArry);
+                    console.log(dataArry);
 
 
                 }
@@ -124,8 +124,8 @@ export function analyzeAudioFromMicrophone() {
 function showDataArry(dataArry) {
     console.log("show data");
     //pitch
-    const pitchElement = document.getElementById("pitchDiv");
-    console.log("max: " + dataArry[dataArry.length - 1][3] + "min: " + dataArry[dataArry.length - 1][4]);
+   const pitchElement = document.getElementById("pitchDiv");
+    //console.log("max: " + dataArry[dataArry.length - 1][3] + "min: " + dataArry[dataArry.length - 1][4]);
     if (dataArry.length <= 2) {
         if (dataArry[0][3] - dataArry[0][4] > 20) {
             if (pitchElement.classList.contains("redG")) {
