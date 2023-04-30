@@ -43,30 +43,14 @@ export function analyzeAudioFromMicrophone() {
                     tempBuffer = audioBuffer.slice();
                     audioBuffer = [];
 
-
-
-                    // Calculate max and min volume in dB
-                    const reference = 1.0;
-                    let maxAmplitude = -Infinity;
-                    let minAmplitude = Infinity;
-                    for (let i = 0; i < tempBuffer.length; i++) {
-                        const amplitude = tempBuffer[i];
-                        if (amplitude > maxAmplitude) {
-                            maxAmplitude = amplitude;
-                        }
-                        if (amplitude < minAmplitude) {
-                            minAmplitude = amplitude;
-                        }
+                    // Calculate the average volume of the tempBuffer array
+                    let averageVolume = 0;
+                    for (const amplitude of tempBuffer) {
+                        averageVolume += amplitude * amplitude;
                     }
-
-                    // Calculate maximum and minimum volume in dB units
-                    const maxVolume = 20 * Math.log10(Math.abs(maxAmplitude) / reference);
-                    const minVolume = minAmplitude === 0 ? -Infinity : -20 * Math.log10(Math.abs(minAmplitude) / reference);
-
-
-                    // Calculate average volume in dB
-                    const rmsAmplitude = Math.sqrt(tempBuffer.reduce((sum, sample) => sum + sample * sample, 0) / tempBuffer.length);
-                    const avgVolume = 20 * Math.log10(rmsAmplitude / reference);
+                    // מדובר על אמפליטודות ממומרות לדציבלים - כאשר נשהו חישוב נוסף שצריך לבצע כדי להגיע לדציבלים.
+                    const averageVolumeForMeter = Math.sqrt(averageVolume / tempBuffer.length);
+                    console.log("average volume: " + averageVolumeForMeter);
 
 
                     // here should bee the pich code
@@ -80,7 +64,7 @@ export function analyzeAudioFromMicrophone() {
                         //Calculate  the pitch in Hz
                         const pitchInHz = Math.round(pitch * 10) / 10;
                         for (let i = 0; i < tempBuffer.length; i++) {
-                            if(pitchInHz >= 300 && pitchInHz <= 3400){
+                            if (pitchInHz >= 300 && pitchInHz <= 3400) {
                                 if (pichMax !== undefined) {
                                     if (pitchInHz > pichMax) {
                                         pichMax = pitchInHz;
@@ -104,7 +88,7 @@ export function analyzeAudioFromMicrophone() {
 
 
 
-                    dataArry.push([maxVolume, minVolume, avgVolume, pichMax, pichMin]);
+                    dataArry.push([averageVolumeForMeter, pichMax, pichMin]);
                     showDataArry(dataArry);
                     console.log(dataArry);
 
@@ -124,10 +108,10 @@ export function analyzeAudioFromMicrophone() {
 function showDataArry(dataArry) {
     console.log("show data");
     //pitch
-   const pitchElement = document.getElementById("pitchDiv");
+    const pitchElement = document.getElementById("pitchDiv");
     //console.log("max: " + dataArry[dataArry.length - 1][3] + "min: " + dataArry[dataArry.length - 1][4]);
     if (dataArry.length <= 2) {
-        if (dataArry[0][3] - dataArry[0][4] > 20) {
+        if (dataArry[0][1] - dataArry[0][2] > 20) {
             if (pitchElement.classList.contains("redG")) {
                 pitchElement.classList.remove("redG");
             }
@@ -143,17 +127,17 @@ function showDataArry(dataArry) {
     else {
         let max20Seconds;
         let min20Seconds;
-        if (dataArry[dataArry.length - 1][3] > dataArry[dataArry.length - 2][3]) {
-            max20Seconds = dataArry[dataArry.length - 1][3];
+        if (dataArry[dataArry.length - 1][1] > dataArry[dataArry.length - 2][1]) {
+            max20Seconds = dataArry[dataArry.length - 1][1];
         }
         else {
-            max20Seconds = dataArry[dataArry.length - 2][3];
+            max20Seconds = dataArry[dataArry.length - 2][1];
         }
-        if (dataArry[dataArry.length - 1][4] < dataArry[dataArry.length - 2][4]) {
-            min20Seconds = dataArry[dataArry.length - 1][4];
+        if (dataArry[dataArry.length - 1][2] < dataArry[dataArry.length - 2][2]) {
+            min20Seconds = dataArry[dataArry.length - 1][2];
         }
         else {
-            min20Seconds = dataArry[dataArry.length - 2][4];
+            min20Seconds = dataArry[dataArry.length - 2][2];
         }
 
 
@@ -173,7 +157,10 @@ function showDataArry(dataArry) {
 
 
     // vol
-
+    const volElement = document.getElementById("volRange");
+    // המרה לאחוזים
+    const dbToPrecenteg = (dataArry[dataArry.length-1][0]*100)/0.60
+    volElement.value=dbToPrecenteg;
 }
 
 
