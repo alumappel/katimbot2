@@ -1,4 +1,5 @@
 ﻿import { analyzeAudioFromMicrophone } from "./audioScript.js";
+import { initMonotony } from "./myMonotonyScript.js";
 
 // משתנים לגודל הוידיאו מהמצלמה
 let videoHeight;
@@ -138,6 +139,7 @@ function startAudioChart() {
 function startAnalysis(){  
   initSkeleton(videoHeight,videoWidth);
   analyzeAudioFromMicrophone();
+  initMonotony();
   startTimer();
 }
 

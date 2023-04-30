@@ -49,8 +49,7 @@ export function analyzeAudioFromMicrophone() {
                         averageVolume += amplitude * amplitude;
                     }
                     // מדובר על אמפליטודות ממומרות לדציבלים - כאשר נשהו חישוב נוסף שצריך לבצע כדי להגיע לדציבלים.
-                    const averageVolumeForMeter = Math.sqrt(averageVolume / tempBuffer.length);
-                    console.log("average volume: " + averageVolumeForMeter);
+                    const averageVolumeForMeter = Math.sqrt(averageVolume / tempBuffer.length);                    
 
 
                     // here should bee the pich code
