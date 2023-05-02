@@ -2,6 +2,8 @@
 import { PitchDetector } from "https://esm.sh/pitchy@4";
 
 
+export var audioAnalysisStart=false;
+
 // window.addEventListener("DOMContentLoaded", function () {
 //     // //אודיו הוספת מאזין לכפתור הזתחלת ניתוח
 //   //  document.getElementById("startBtnAudio").addEventListener("click", analyzeAudioFromMicrophone);
@@ -90,6 +92,7 @@ export function analyzeAudioFromMicrophone() {
                     dataArry.push([averageVolumeForMeter, pichMax, pichMin]);
                     showDataArry(dataArry);
                     console.log(dataArry);
+                    audioAnalysisStart=true;
 
 
                 }
@@ -158,8 +161,22 @@ function showDataArry(dataArry) {
     // vol
     const volElement = document.getElementById("volRange");
     // המרה לאחוזים
-    const dbToPrecenteg = (dataArry[dataArry.length-1][0]*100)/0.60
+    const dbToPrecenteg = (dataArry[dataArry.length-1][0]*100)/0.20
     volElement.value=dbToPrecenteg;
+
+    const volDivElement=document.getElementById("volDiv");
+    if (dbToPrecenteg > 25 && dbToPrecenteg < 75) {
+        if ( volDivElement.classList.contains("redG")) {
+            volDivElement.classList.remove("redG");
+        }
+        volDivElement.classList.add("greenG");
+    }
+    else {
+        if ( volDivElement.classList.contains("redG")) {
+            volDivElement.classList.remove("redG");
+        }
+        volDivElement.classList.add("greenG");
+    }
 }
 
 

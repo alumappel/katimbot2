@@ -2,6 +2,7 @@ let runDetector = true;
 let runFrame = true;
 let runHands = true;
 let runEyes = true;
+var moveAnalysisStart=false;
 
 let frameCount = 0;
 const frameNumForCalculate = 30;
@@ -70,6 +71,8 @@ async function initSkeleton(videoHeight,videoWidth) {
         handsMovment(keypoints);
         // קריא לבדיקת מבט
         eyeTocamra(keypoints);
+
+        moveAnalysisStart=true;
       }
 
       // Call the redraw function again to draw the next frame

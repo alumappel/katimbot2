@@ -113,6 +113,14 @@ body {
   border-radius: 1rem; 
   backdrop-filter: blur(10px);   
 }
+
+.bg-modal{
+    background: var(--white);
+    box-shadow: var(--shadow);
+    border-radius: 1rem; 
+    backdrop-filter: blur(10px);   
+  }
+
 .bg-video {
     background: var(--bg);
     box-shadow: var(--shadow);
@@ -166,7 +174,7 @@ body {
     outline: none;    
     -webkit-transition: .2s;
     transition: opacity .2s;
-    background-image: url('../../images/Group 157.png');
+    background-image: url('https://raw.githubusercontent.com/alumappel/katimbot2/master/images/Group%20157.png');
     background-repeat: no-repeat;
     background-size:100% 100%;
     background-position: center center;
@@ -179,7 +187,7 @@ body {
     height: 8vw;
     width: 10%;     
     margin-bottom: 12%; 
-    background-image: url('../../images/Union.png');
+    background-image: url('https://raw.githubusercontent.com/alumappel/katimbot2/master/images/Union.png');
     background-size: contain;
     background-position: center center;
     background-repeat: no-repeat;
@@ -189,7 +197,7 @@ body {
   .slider::-moz-range-thumb {
     height: 6vw; 
     margin-bottom: 12%; 
-    background-image: url('../../images/Union.png');
+    background-image: url('https://raw.githubusercontent.com/alumappel/katimbot2/master/images/Union.png');
     background-size: contain;
     background-position: center center;
     background-repeat: no-repeat;
