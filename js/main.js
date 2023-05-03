@@ -149,31 +149,40 @@ function startAnalysis() {
   analyzeAudioFromMicrophone();
   // initMonotony();
 
-  // כאשר יש תוכן בשני המערכים
-  console.log("moveAnalysisStart: "+moveAnalysisStart);
-  console.log("audioAnalysisStart: "+audioAnalysisStart);
-  // return;
-  while (!moveAnalysisStart) {
-    setTimeout(function() {}, 5000);
-   }  
-   console.log("moveAnalysisStart: "+moveAnalysisStart);
-    // Both variables are true, do something.
-    // מציג ספירה
-    document.getElementById("staticBack").classList.add("d-none");
-    document.getElementById("cunterDiv").classList.remove("d-none");
-for (i=3;i>0;i--) {
-  document.getElementById("counter").innerHTML=i;
-  setTimeout(countdown, 1000);
-} 
-    // מנקה מערכים
-    //  בעתיד
+  // כאשר יש תוכן
+  console.log("moveAnalysisStart: " + moveAnalysisStart);
+  chackForChange();
+  function chackForChange() {   
+    if (!moveAnalysisStart) {
+      setTimeout(chackForChange, 5000);
+    }
+    else {
+      console.log("moveAnalysisStart: " + moveAnalysisStart);
+      // Both variables are true, do something.
+      // מציג ספירה
+      document.getElementById("staticBack").classList.add("d-none");
+      document.getElementById("cunterDiv").classList.remove("d-none");
+      let countdownNum = 3;
+      countdown();
+      function countdown() {
+        if (countdownNum > 0) {
+          document.getElementById("counter").innerHTML = countdownNum;
+          countdownNum--;
+          setTimeout(countdown, 1000);
+        }
+        else {
+          // מנקה מערכים
+          //  בעתיד
 
-    // סוגר פופ אפ
-    startModal.hide();
-    // מתחיל שעון
-    startTimer();
+          // סוגר פופ אפ
+          startModal.hide();
+          // מתחיל שעון
+          startTimer();
+        }
+      }
 
-
+    }
+  }
 }
 
 
@@ -201,28 +210,3 @@ function startTimer() {
   }, 1000);
 }
 
-function waitUntilAnlyseStart() {    
-  // Create a promise that will be resolved when both variables are true.
-  let promise = new Promise((resolve, reject) => {
-    // Set a listener for the change event for each variable.
-    moveAnalysisStart.addEventListener('change', () => {
-      if (moveAnalysisStart.value === true) {
-        if (audioAnalysisStart.value === true) {
-          // Both variables are true, resolve the promise.
-          resolve();
-        }
-      }
-    });
-    audioAnalysisStart.addEventListener('change', () => {
-      if (audioAnalysisStart.value === true) {
-        if (moveAnalysisStart.value === true) {
-          // Both variables are true, resolve the promise.
-          resolve();
-        }
-      }
-    });
-  });
-
-  // Return the promise.
-  return promise;
-}
