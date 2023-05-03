@@ -172,10 +172,10 @@ function showDataArry(dataArry) {
         volDivElement.classList.add("greenG");
     }
     else {
-        if ( volDivElement.classList.contains("redG")) {
-            volDivElement.classList.remove("redG");
+        if ( volDivElement.classList.contains("greenG")) {
+            volDivElement.classList.remove("greenG");
         }
-        volDivElement.classList.add("greenG");
+        volDivElement.classList.add("redG");
     }
 }
 
