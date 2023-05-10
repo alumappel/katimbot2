@@ -1,6 +1,7 @@
 ﻿import { analyzeAudioFromMicrophone } from "./audioScript.js";
 import { initMonotony } from "./myMonotonyScript.js";
 
+
 // משתנים לגודל הוידיאו מהמצלמה
 let videoHeight;
 let videoWidth;
@@ -144,10 +145,19 @@ function startAnalysis() {
   document.getElementById("startBtn").classList.add("d-none");
   document.getElementById("startSpinner").classList.remove("d-none");
 
-  // קורה לפונקציות ניתוח
+
+
+// Initialize TensorFlow.js
+tf.ready().then(() => {
+  // This code will run after TensorFlow.js is ready
+  console.log('TensorFlow.js is ready!');
+// קורה לפונקציות ניתוח
   initSkeleton(videoHeight, videoWidth);
   analyzeAudioFromMicrophone();
   // initMonotony();
+});
+
+  
 
   // כאשר יש תוכן
   console.log("moveAnalysisStart: " + moveAnalysisStart);
