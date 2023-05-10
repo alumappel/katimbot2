@@ -4,6 +4,8 @@ let runHands = true;
 let runEyes = true;
 var moveAnalysisStart = false;
 
+const MoveArry = [];
+
 let frameCount = 0;
 const frameNumForCalculate = 30;
 
@@ -400,7 +402,6 @@ function eyeTocamra(keypoints) {
 }
 
 function creatMoveArry() {
-  const MoveArry = [];
   let startTime = new Date().getTime();
   var repite = setInterval(function () {
     const currentTime = new Date().getTime();
@@ -419,7 +420,7 @@ function creatMoveArry() {
       const eyesState=togglNames[largestVariable(eyesCount)];
 
       MoveArry.push([frameState,eyesState,rightHandState,leftHandState]);
-      // console.log(MoveArry);
+      console.log(MoveArry);
 
       // MoveArry.push([inFrameCount, outsideFrameCount, leftHandHidedCount, rightHandHidedCount, leftHandstaticCount, rightHandstaticCount, leftHandOkCount, leftHandOkCount, rightHandOkCount, eyesOkcount, eyesWrongCount]);
 

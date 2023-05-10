@@ -1,5 +1,6 @@
 ﻿import { analyzeAudioFromMicrophone } from "./audioScript.js";
 import { initMonotony } from "./myMonotonyScript.js";
+import { audioArry } from "./audioScript.js";
 
 
 // משתנים לגודל הוידיאו מהמצלמה
@@ -182,8 +183,9 @@ tf.ready().then(() => {
         }
         else {
           // מנקה מערכים
-          //  בעתיד
-
+          MoveArry.length = 0;
+          audioArry.length = 0;
+// console.log("cleard");
           // סוגר פופ אפ
           startModal.hide();
           // מתחיל שעון

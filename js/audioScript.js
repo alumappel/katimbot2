@@ -3,6 +3,7 @@ import { PitchDetector } from "https://esm.sh/pitchy@4";
 
 
 export var audioAnalysisStart=false;
+export const audioArry = [];
 
 // window.addEventListener("DOMContentLoaded", function () {
 //     // //אודיו הוספת מאזין לכפתור הזתחלת ניתוח
@@ -11,7 +12,7 @@ export var audioAnalysisStart=false;
 
 
 export function analyzeAudioFromMicrophone() {
-    const audioArry = [];
+   
     // Set up audio context and media stream
     const audioContext = new AudioContext();
     // Create an AnalyserNode instance to analyze the audio signal
@@ -91,7 +92,7 @@ export function analyzeAudioFromMicrophone() {
 
                     audioArry.push([averageVolumeForMeter, pichMax, pichMin]);
                     showDataArry(audioArry);
-                    // console.log(audioArry);
+                    console.log(audioArry);
                     audioAnalysisStart=true;
 
 
