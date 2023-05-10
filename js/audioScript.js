@@ -92,7 +92,7 @@ export function analyzeAudioFromMicrophone() {
 
                     audioArry.push([averageVolumeForMeter, pichMax, pichMin]);
                     showDataArry(audioArry);
-                    console.log(audioArry);
+                    // console.log(audioArry);
                     audioAnalysisStart=true;
 
 

@@ -420,7 +420,7 @@ function creatMoveArry() {
       const eyesState=togglNames[largestVariable(eyesCount)];
 
       MoveArry.push([frameState,eyesState,rightHandState,leftHandState]);
-      console.log(MoveArry);
+      // console.log(MoveArry);
 
       // MoveArry.push([inFrameCount, outsideFrameCount, leftHandHidedCount, rightHandHidedCount, leftHandstaticCount, rightHandstaticCount, leftHandOkCount, leftHandOkCount, rightHandOkCount, eyesOkcount, eyesWrongCount]);
 

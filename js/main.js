@@ -148,22 +148,22 @@ function startAnalysis() {
 
 
 
-// Initialize TensorFlow.js
-tf.ready().then(() => {
-  // This code will run after TensorFlow.js is ready
-  console.log('TensorFlow.js is ready!');
-// קורה לפונקציות ניתוח
-  initSkeleton(videoHeight, videoWidth);
-  analyzeAudioFromMicrophone();
-  // initMonotony();
-});
+  // Initialize TensorFlow.js
+  tf.ready().then(() => {
+    // This code will run after TensorFlow.js is ready
+    console.log('TensorFlow.js is ready!');
+    // קורה לפונקציות ניתוח
+    initSkeleton(videoHeight, videoWidth);
+    analyzeAudioFromMicrophone();
+    // initMonotony();
+  });
 
-  
+
 
   // כאשר יש תוכן
   console.log("moveAnalysisStart: " + moveAnalysisStart);
   chackForChange();
-  function chackForChange() {   
+  function chackForChange() {
     if (!moveAnalysisStart) {
       setTimeout(chackForChange, 5000);
     }
@@ -185,7 +185,19 @@ tf.ready().then(() => {
           // מנקה מערכים
           MoveArry.length = 0;
           audioArry.length = 0;
-// console.log("cleard");
+          // console.log("cleard");
+          // מנקה משובים
+          const HTMlItems = ["pitchDiv","volDiv","overlayBorderColor","rightHandDiv","leftHandDiv","handsDiv","eyesDiv"];
+          HTMlItems.forEach(item => {
+            if (document.getElementById(item).classList.contains("redG")) {
+              document.getElementById(item).classList.remove("redG");
+            }
+            if (document.getElementById(item).classList.contains("greenG")) {
+              document.getElementById(item).classList.remove("greenG");
+            }
+          });
+          document.getElementById("rightHandFeedback").innerHTML = "";
+          document.getElementById("leftHandFeedback").innerHTML = "";
           // סוגר פופ אפ
           startModal.hide();
           // מתחיל שעון
