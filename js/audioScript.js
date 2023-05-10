@@ -11,7 +11,7 @@ export var audioAnalysisStart=false;
 
 
 export function analyzeAudioFromMicrophone() {
-    const dataArry = [];
+    const audioArry = [];
     // Set up audio context and media stream
     const audioContext = new AudioContext();
     // Create an AnalyserNode instance to analyze the audio signal
@@ -89,9 +89,9 @@ export function analyzeAudioFromMicrophone() {
 
 
 
-                    dataArry.push([averageVolumeForMeter, pichMax, pichMin]);
-                    showDataArry(dataArry);
-                    console.log(dataArry);
+                    audioArry.push([averageVolumeForMeter, pichMax, pichMin]);
+                    showDataArry(audioArry);
+                    // console.log(audioArry);
                     audioAnalysisStart=true;
 
 
@@ -108,7 +108,7 @@ export function analyzeAudioFromMicrophone() {
 
 //show dataArry live
 function showDataArry(dataArry) {
-    console.log("show data");
+    // console.log("show data");
     //pitch
     const pitchElement = document.getElementById("pitchDiv");
     //console.log("max: " + dataArry[dataArry.length - 1][3] + "min: " + dataArry[dataArry.length - 1][4]);

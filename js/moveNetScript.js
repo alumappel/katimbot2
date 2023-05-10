@@ -2,7 +2,7 @@ let runDetector = true;
 let runFrame = true;
 let runHands = true;
 let runEyes = true;
-var moveAnalysisStart=false;
+var moveAnalysisStart = false;
 
 let frameCount = 0;
 const frameNumForCalculate = 30;
@@ -13,11 +13,11 @@ const frameNumForCalculate = 30;
 //2- מערך של שמאל
 let handsLocation = [];
 // מערך עיניים, כל תא עין ימין ואז שמאל
-let eyesLocation =[];
+let eyesLocation = [];
 
 
 // פונקצייה שמכינה את כל מה שצריך כדי להתחיל לאסוף וידיאו ולנתח אותו 
-async function initSkeleton(videoHeight,videoWidth) { 
+async function initSkeleton(videoHeight, videoWidth) {
   const video = document.getElementById('player');
   //const canvas = document.getElementById('canvas1');
   //const ctx = canvas.getContext('2d');
@@ -25,7 +25,10 @@ async function initSkeleton(videoHeight,videoWidth) {
     poseDetection.SupportedModels.MoveNet,
     { modelType: poseDetection.movenet.modelType.SINGLEPOSE_THUNDER }
   );
- 
+  //  קריאה לפונקצייה ששומרת נתונים במערך
+  creatMoveArry();
+
+
   // פונקצייה שחוזרת כל פריים ומבצעת ניתוח על הוידיאו יחד עם הצגה של שלד
   async function redraw() {
     //ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -66,13 +69,15 @@ async function initSkeleton(videoHeight,videoWidth) {
 
 
         // קריאה למיקום בפריים
-        fullBodyInFrame(keypoints,videoHeight,videoWidth);
+        fullBodyInFrame(keypoints, videoHeight, videoWidth);
         // קריאה לתנועות ידיים
         handsMovment(keypoints);
         // קריא לבדיקת מבט
         eyeTocamra(keypoints);
 
-        moveAnalysisStart=true;
+
+
+        moveAnalysisStart = true;
       }
 
       // Call the redraw function again to draw the next frame
@@ -86,8 +91,25 @@ async function initSkeleton(videoHeight,videoWidth) {
   redraw();
 }
 
+// משתנים לתיעוד ביצועים
+let inFrameCount = 0;
+let outsideFrameCount = 0;
+
+let leftHandHidedCount = 0;
+let rightHandHidedCount = 0;
+let leftHandstaticCount = 0;
+let rightHandstaticCount = 0;
+let leftHandOkCount = 0;
+let rightHandOkCount = 0;
+
+let eyesOkcount = 0;
+let eyesWrongCount = 0;
+
+
+
+
 // פונקצייה שבודקת מיקום בפריים
-function fullBodyInFrame(keypoints,videoHeight,videoWidth) {
+function fullBodyInFrame(keypoints, videoHeight, videoWidth) {
   //בדיקה שיש רצון לבצע ניתוח
   if (runFrame == true) {
     //בדיקה של אברים בפריים
@@ -154,12 +176,14 @@ function fullBodyInFrame(keypoints,videoHeight,videoWidth) {
         document.getElementById("overlayBorderColor").classList.remove("green-outline");
       }
       document.getElementById("overlayBorderColor").classList.add("red-outline");
+      outsideFrameCount++;
     }
     else {
       if (document.getElementById("overlayBorderColor").classList.contains("red-outline")) {
         document.getElementById("overlayBorderColor").classList.remove("red-outline");
       }
       document.getElementById("overlayBorderColor").classList.add("green-outline");
+      inFrameCount++;
     }
   }
 }
@@ -246,17 +270,18 @@ function handsMovment(keypoints) {
 
       //  ביצוע חישוב והדפסה
       const minMargin = 30;
-      const rightelement=document.getElementById("rightHandDiv");
-      const leftelement=document.getElementById("leftHandDiv");
+      const rightelement = document.getElementById("rightHandDiv");
+      const leftelement = document.getElementById("leftHandDiv");
       document.getElementById("rightHandFeedback").innerHTML = "";
       document.getElementById("leftHandFeedback").innerHTML = "";
-      
+
       if (rightNotShowCount > frameNumForCalculate / 2) {
         if (rightelement.classList.contains("greenG")) {
           rightelement.classList.remove("greenG");
         }
         rightelement.classList.add("redG");
         document.getElementById("rightHandFeedback").innerHTML += "היד מוסתרת מהמצלמה";
+        rightHandHidedCount++;
       }
       else {
         if (rightXMax - rightXMin > minMargin && rightYMax - rightYMin > minMargin) {
@@ -264,6 +289,7 @@ function handsMovment(keypoints) {
             rightelement.classList.remove("redG");
           }
           rightelement.classList.add("greenG");
+          rightHandOkCount++;
           // document.getElementById("feedback").innerHTML += "כל הכבוד! יש תנועה מספקת עם היד" + "</br>";
         }
         else {
@@ -272,15 +298,17 @@ function handsMovment(keypoints) {
           }
           rightelement.classList.add("redG");
           document.getElementById("rightHandFeedback").innerHTML += "אינך מזיז/ה את היד מספיק";
+          rightHandstaticCount++;
         }
       }
-   
+
       if (leftNotShowCount > frameNumForCalculate / 2) {
         if (leftelement.classList.contains("greenG")) {
           leftelement.classList.remove("greenG");
         }
         leftelement.classList.add("redG");
-        document.getElementById("leftHandFeedback").innerHTML += "היד מוסתרת מהמצלמה" ;
+        document.getElementById("leftHandFeedback").innerHTML += "היד מוסתרת מהמצלמה";
+        leftHandHidedCount++;
       }
       else {
         if (leftXMax - leftXMin > minMargin && leftYMax - leftYMin > minMargin) {
@@ -288,6 +316,7 @@ function handsMovment(keypoints) {
             leftelement.classList.remove("redG");
           }
           leftelement.classList.add("greenG");
+          leftHandOkCount++;
           // document.getElementById("feedback").innerHTML += "כל הכבוד! יש תנועה מספקת עם היד" + "</br>";
         }
         else {
@@ -296,21 +325,22 @@ function handsMovment(keypoints) {
           }
           leftelement.classList.add("redG");
           document.getElementById("leftHandFeedback").innerHTML += "אינך מזיז/ה את היד מספיק";
+          leftHandstaticCount++;
         }
       }
-      if (leftelement.classList.contains("redG")||rightelement.classList.contains("redG")) {
-        if(document.getElementById("handsDiv").classList.contains("greenG")) {
-          document.getElementById("handsDiv").classList.remove("greenG");          
+      if (leftelement.classList.contains("redG") || rightelement.classList.contains("redG")) {
+        if (document.getElementById("handsDiv").classList.contains("greenG")) {
+          document.getElementById("handsDiv").classList.remove("greenG");
         }
         document.getElementById("handsDiv").classList.add("redG");
       }
-      else if(leftelement.classList.contains("greenG")&&rightelement.classList.contains("greenG")){
-        if(document.getElementById("handsDiv").classList.contains("redG")) {
-          document.getElementById("handsDiv").classList.remove("redG");          
+      else if (leftelement.classList.contains("greenG") && rightelement.classList.contains("greenG")) {
+        if (document.getElementById("handsDiv").classList.contains("redG")) {
+          document.getElementById("handsDiv").classList.remove("redG");
         }
         document.getElementById("handsDiv").classList.add("greenG");
       }
-      
+
     }
   }
 }
@@ -319,7 +349,7 @@ function handsMovment(keypoints) {
 function eyeTocamra(keypoints) {
   //בדיקה שיש רצון לבצע ניתוח
   if (runEyes == true) {
-// בדיקה שיש וודאות במציאת הנקודה
+    // בדיקה שיש וודאות במציאת הנקודה
     //שמירת המיקום במערך הזמני    
     eyesLocation.push(keypoints[2]);
     eyesLocation.push(keypoints[1]);
@@ -332,37 +362,95 @@ function eyeTocamra(keypoints) {
       eyesLocation = [];
 
       // ספירת חוסר נראות לימין ולשמאל בנפד
-      let rightNotShowCount=0;
-      let leftNotShowCount=0;
+      let rightNotShowCount = 0;
+      let leftNotShowCount = 0;
 
       for (let i = 0; i < eyesLocationTemp.length - 1; i += 2) {
         if (eyesLocationTemp[i].score < 0.65) {
           rightNotShowCount++;
         }
       }
-        for (let i = 1; i < eyesLocationTemp.length - 1; i += 2) {
-          if (eyesLocationTemp[i].score < 0.65) {
-            leftNotShowCount++;
-          }
+      for (let i = 1; i < eyesLocationTemp.length - 1; i += 2) {
+        if (eyesLocationTemp[i].score < 0.65) {
+          leftNotShowCount++;
         }
+      }
 
-        // הדפסה
-        const element = document.getElementById("eyesDiv");
-        document.getElementById("eyesFeedback").innerHTML = "";
-        if (rightNotShowCount > frameNumForCalculate / 2 || leftNotShowCount > frameNumForCalculate / 2) {
-          if (element.classList.contains("greenG")) {
-            element.classList.remove("greenG");
-          }
-          element.classList.add("redG");
-          document.getElementById("eyesFeedback").innerHTML += "שים לב להסתכל למצלמה " + "</br>";
+      // הדפסה
+      const element = document.getElementById("eyesDiv");
+      document.getElementById("eyesFeedback").innerHTML = "";
+      if (rightNotShowCount > frameNumForCalculate / 2 || leftNotShowCount > frameNumForCalculate / 2) {
+        if (element.classList.contains("greenG")) {
+          element.classList.remove("greenG");
         }
-        else{
-          if (element.classList.contains("redG")) {
-            element.classList.remove("redG");
-          }
-          element.classList.add("greenG");
-          // document.getElementById("feedback").innerHTML += "מבט למצלמה מעולה!" + "</br>";
+        element.classList.add("redG");
+        document.getElementById("eyesFeedback").innerHTML += "שים לב להסתכל למצלמה " + "</br>";
+        eyesWrongCount++;
+      }
+      else {
+        if (element.classList.contains("redG")) {
+          element.classList.remove("redG");
         }
+        element.classList.add("greenG");
+        eyesOkcount++;
+        // document.getElementById("feedback").innerHTML += "מבט למצלמה מעולה!" + "</br>";
+      }
     }
   }
+}
+
+function creatMoveArry() {
+  const MoveArry = [];
+  let startTime = new Date().getTime();
+  var repite = setInterval(function () {
+    const currentTime = new Date().getTime();
+    if (currentTime - startTime > 10000) {
+      startTime = new Date().getTime();
+      const HandsNames = ["ok", "hided", "static"];
+      const togglNames = ["ok", "wrong"];
+      const rightHandCount = [rightHandOkCount, rightHandHidedCount, rightHandstaticCount]      
+      const leftHandCount = [leftHandOkCount,leftHandHidedCount, leftHandstaticCount ]
+      const eyesCount=[eyesOkcount,eyesWrongCount];
+      const frameCount=[inFrameCount,outsideFrameCount];
+
+      const rightHandState = HandsNames[largestVariable(rightHandCount)];
+      const leftHandState = HandsNames[largestVariable(leftHandCount)];
+      const frameState = togglNames[largestVariable(frameCount)];
+      const eyesState=togglNames[largestVariable(eyesCount)];
+
+      MoveArry.push([frameState,eyesState,rightHandState,leftHandState]);
+      // console.log(MoveArry);
+
+      // MoveArry.push([inFrameCount, outsideFrameCount, leftHandHidedCount, rightHandHidedCount, leftHandstaticCount, rightHandstaticCount, leftHandOkCount, leftHandOkCount, rightHandOkCount, eyesOkcount, eyesWrongCount]);
+
+      inFrameCount = 0;
+      outsideFrameCount = 0;
+
+      leftHandHidedCount = 0;
+      rightHandHidedCount = 0;
+      leftHandstaticCount = 0;
+      rightHandstaticCount = 0;
+      leftHandOkCount = 0;
+      rightHandOkCount = 0;
+
+      eyesOkcount = 0;
+      eyesWrongCount = 0;
+    }
+  }, 1000);
+}
+
+function largestVariable(array) {
+  let largest = array[0];
+  let largestIndex = 0;
+
+  for (let i = 1; i < array.length; i++) {
+    if (array[i] > largest) {
+      largest = array[i];
+      largestIndex = i;
+    } else if (array[i] == largest && i == 0) {
+      largestIndex = 0;
+    }
+  }
+
+  return largestIndex;
 }
