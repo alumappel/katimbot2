@@ -114,15 +114,19 @@ body {
   backdrop-filter: blur(10px);   
 }
 
+.footer-bg{
+    background: linear-gradient(111.35deg, #ECFCFF 0%, #E7FBFF 8.56%, #DCECFF 37.35%, #E0DDFF 78.86%, #E8C2FF 103.64%);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(10px);   
+}
+
 .bg-modal{
     background: var(--white);
     box-shadow: var(--shadow);
     border-radius: 1rem; 
     backdrop-filter: blur(10px);   
   }
-  .modal {
-  backdrop: false;
-}
+
 
 .bg-video {
     background: var(--bg);
@@ -238,6 +242,19 @@ body {
     transition: transform 1s ease 0s;
 } */
 
+.navbar{
+     padding: 0;
+     padding-right: 2rem; 
+     max-width: 95vw;
+     margin-top: 1rem;
+     margin-left: auto; 
+     margin-right: auto; 
+     border-radius: 35px;
+     box-shadow: var(--shadow);
+}
+
+
+
 /*כפתורים ונהנים*/
  a, .btn-link {
     color: #0366d6;
@@ -293,7 +310,7 @@ body {
     }
 
 .outbtn {
-    padding: 0 2%;
+    padding: 0.1rem 0.5rem;
     background: var(--bg);
     border: 3px solid var(--purple) !important;
 }
