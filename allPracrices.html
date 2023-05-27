@@ -54,6 +54,8 @@
     <link rel="stylesheet" href="./css/bootstrap.rtl.min.css">
     <script src="js/bootstrap.bundle.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+
+
     <!-- css -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
@@ -61,8 +63,9 @@
     <!-- manifest.json file -->
     <link rel="manifest" href="./manifest.json">
 
-    <!-- קישור לקובץ ה-js
-    <script type="module" src="js/main.js"></script> -->
+ <!-- קישור לקובץ ה-js -->
+    <script   src="js/APIhandler.js"></script>
+    <script   src="js/allpracticesMain.js"></script>
 
 
 
@@ -95,7 +98,7 @@
     <!-- Navbar -->
 
 
-    <div class="container" style="height: 100vh; max-width: 85vw; margin-top: 3rem;">
+    <div class="container" style="min-height: 100vh;max-width: 85vw;margin-top: 3rem;max-height: fit-content; margin-bottom: 3rem;">
         <div class="row justify-content-between d-flex align-items-center">
             <div class="col col-9">
                 <h2>התרגולים שלך</h2>
@@ -123,180 +126,7 @@
                     </tr>
                 </thead>
                 <tbody id="practicesTable" class="table-group-divider">
-                    <tr>
-                        <td scope="row">22/7/23</td>
-                        <td>12:45</td>
-                        <td>פירות הדר</td>
-                        <td>78</td>
-                        <td>05:34</td>
-                        <td class="text-center"><button id="deleteBtn" type="button"
-                                onclick="transferIdtoDeleteModal(${practice.id})" class="table-btn rounded rounded-9"
-                                data-bs-toggle="modal" data-bs-target="#deleteModal">
-                                <span class="bi bi-eye-fill icon-color">
-                            </button>
-                        </td>
-                        <td class="text-center">
-                            <button id="deleteBtn" type="button" onclick="transferIdtoDeleteModal(${practice.id})"
-                                class="table-btn rounded rounded-9" data-bs-toggle="modal"
-                                data-bs-target="#deleteModal">
-                                <span class="bi bi-file-earmark-arrow-down-fill icon-color">
-                            </button>
-                        </td>
 
-
-                        <td class="text-center">
-                            <button id="deleteBtn" type="button" onclick="transferIdtoDeleteModal(${practice.id})"
-                                class="table-btn rounded rounded-9" data-bs-toggle="modal"
-                                data-bs-target="#deleteModal">
-                                <span class="bi bi-trash3-fill icon-color"></span>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td scope="row">22/7/23</td>
-                        <td class="noborder">12:45</td>
-                        <td class="noborder">פירות הדר</td>
-                        <td>78</td>
-                        <td>05:34</td>
-                        <td class="text-center"><button id="deleteBtn" type="button"
-                                onclick="transferIdtoDeleteModal(${practice.id})" class="table-btn rounded rounded-9"
-                                data-bs-toggle="modal" data-bs-target="#deleteModal">
-                                <span class="bi bi-eye-fill icon-color">
-                            </button>
-                        </td>
-                        <td class="text-center">
-                            <button id="deleteBtn" type="button" onclick="transferIdtoDeleteModal(${practice.id})"
-                                class="table-btn rounded rounded-9" data-bs-toggle="modal"
-                                data-bs-target="#deleteModal">
-                                <span class="bi bi-file-earmark-arrow-down-fill icon-color">
-                            </button>
-                        </td>
-
-
-                        <td class="text-center">
-                            <button id="deleteBtn" type="button" onclick="transferIdtoDeleteModal(${practice.id})"
-                                class="table-btn rounded rounded-9" data-bs-toggle="modal"
-                                data-bs-target="#deleteModal">
-                                <span class="bi bi-trash3-fill icon-color"></span>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td scope="row">22/7/23</td>
-                        <td class="noborder">12:45</td>
-                        <td class=" noborder">פירות הדר</td>
-                        <td>78</td>
-                        <td>05:34</td>
-                        <td class="text-center"><button id="deleteBtn" type="button"
-                                onclick="transferIdtoDeleteModal(${practice.id})" class="table-btn rounded rounded-9"
-                                data-bs-toggle="modal" data-bs-target="#deleteModal">
-                                <span class="bi bi-eye-fill icon-color">
-                            </button>
-                        </td>
-                        <td class="text-center">
-                            <button id="deleteBtn" type="button" onclick="transferIdtoDeleteModal(${practice.id})"
-                                class="table-btn rounded rounded-9" data-bs-toggle="modal"
-                                data-bs-target="#deleteModal">
-                                <span class="bi bi-file-earmark-arrow-down-fill icon-color">
-                            </button>
-                        </td>
-
-
-                        <td class="text-center">
-                            <button id="deleteBtn" type="button" onclick="transferIdtoDeleteModal(${practice.id})"
-                                class="table-btn rounded rounded-9" data-bs-toggle="modal"
-                                data-bs-target="#deleteModal">
-                                <span class="bi bi-trash3-fill icon-color"></span>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td scope="row">22/7/23</td>
-                        <td class="noborder">12:45</td>
-                        <td class=" noborder">פירות הדר</td>
-                        <td>78</td>
-                        <td>05:34</td>
-                        <td class="text-center"><button id="deleteBtn" type="button"
-                                onclick="transferIdtoDeleteModal(${practice.id})" class="table-btn rounded rounded-9"
-                                data-bs-toggle="modal" data-bs-target="#deleteModal">
-                                <span class="bi bi-eye-fill icon-color">
-                            </button>
-                        </td>
-                        <td class="text-center">
-                            <button id="deleteBtn" type="button" onclick="transferIdtoDeleteModal(${practice.id})"
-                                class="table-btn rounded rounded-9" data-bs-toggle="modal"
-                                data-bs-target="#deleteModal">
-                                <span class="bi bi-file-earmark-arrow-down-fill icon-color">
-                            </button>
-                        </td>
-
-
-                        <td class="text-center">
-                            <button id="deleteBtn" type="button" onclick="transferIdtoDeleteModal(${practice.id})"
-                                class="table-btn rounded rounded-9" data-bs-toggle="modal"
-                                data-bs-target="#deleteModal">
-                                <span class="bi bi-trash3-fill icon-color"></span>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td scope="row">22/7/23</td>
-                        <td class="noborder">12:45</td>
-                        <td class="noborder">פירות הדר</td>
-                        <td>78</td>
-                        <td>05:34</td>
-                        <td class="text-center"><button id="deleteBtn" type="button"
-                                onclick="transferIdtoDeleteModal(${practice.id})" class="table-btn rounded rounded-9"
-                                data-bs-toggle="modal" data-bs-target="#deleteModal">
-                                <span class="bi bi-eye-fill icon-color">
-                            </button>
-                        </td>
-                        <td class="text-center">
-                            <button id="deleteBtn" type="button" onclick="transferIdtoDeleteModal(${practice.id})"
-                                class="table-btn rounded rounded-9" data-bs-toggle="modal"
-                                data-bs-target="#deleteModal">
-                                <span class="bi bi-file-earmark-arrow-down-fill icon-color">
-                            </button>
-                        </td>
-
-
-                        <td class="text-center">
-                            <button id="deleteBtn" type="button" onclick="transferIdtoDeleteModal(${practice.id})"
-                                class="table-btn rounded rounded-9" data-bs-toggle="modal"
-                                data-bs-target="#deleteModal">
-                                <span class="bi bi-trash3-fill icon-color"></span>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td scope="row">22/7/23</td>
-                        <td class="noborder">12:45</td>
-                        <td class=" noborder">פירות הדר</td>
-                        <td>78</td>
-                        <td>05:34</td>
-                        <td class="text-center"><button id="deleteBtn" type="button"
-                                onclick="transferIdtoDeleteModal(${practice.id})" class="table-btn rounded rounded-9"
-                                data-bs-toggle="modal" data-bs-target="#deleteModal">
-                                <span class="bi bi-eye-fill icon-color">
-                            </button>
-                        </td>
-                        <td class="text-center">
-                            <button id="deleteBtn" type="button" onclick="transferIdtoDeleteModal(${practice.id})"
-                                class="table-btn rounded rounded-9" data-bs-toggle="modal"
-                                data-bs-target="#deleteModal" >
-                                <span class="bi bi-file-earmark-arrow-down-fill icon-color">
-                            </button>
-                        </td>
-
-
-                        <td class="text-center">
-                            <button id="deleteBtn" type="button" onclick="transferIdtoDeleteModal(${practice.id})"
-                                class="table-btn rounded rounded-9" data-bs-toggle="modal"
-                                data-bs-target="#deleteModal" data-backdrop="false">
-                                <span class="bi bi-trash3-fill icon-color"></span>
-                            </button>
-                        </td>
-                    </tr>
                 </tbody>
             </table>
         </div>
@@ -310,11 +140,13 @@
         <div class="modal-dialog modal-dialog-centered ">
             <div class="modal-content bg-modal">
                 <div class="modal-header">
-                    <h2 class="modal-title fs-5 " id="exampleModalLabel">מחיקת אימון</h2>
+                    <h2 class="modal-title fs-5 ">מחיקת אימון</h2>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    ראינו שניסית למחוק את האימון ____, אנחנו רק מוודאים שזו באמת הכוונה....
+                    ראינו שניסית למחוק את האימון
+                    <span id="deletename"></span>
+                    , אנחנו רק מוודאים שזו באמת הכוונה....
                 </div>
                 <div class="modal-footer align-content-between justify-content-between d-flex">
                     <button type="button" class="btn btn-modal-primary" data-bs-dismiss="modal">אוייש, זו כנראה
@@ -358,7 +190,7 @@
                         <div class="col">
                             <p>
                                 <strong>צוות הפרויקט</strong></br>
-                                רעות ביב ואלומה אפל
+                                רעות ביבי ואלומה אפל
                                 </br>
                                 <strong>מנחי הפרויקט</strong></br>
                                 עדי סלגיי וינאי זגורי
