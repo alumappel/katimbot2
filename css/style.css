@@ -892,5 +892,51 @@ thead{
 
    
       
-    
- 
+        .arrow_container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            bottom: 5px; /* Adjust the distance from the bottom as needed */
+            width: 100%;
+            left: 0;
+          }
+        .arrow {            
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            cursor: pointer;
+            scale: 0.5;
+          }
+
+          .arrow svg {
+            display: block;
+            margin-bottom: -10px; /* Adjust the spacing between the SVGs as needed */
+          }
+
+          .arrow1{
+            opacity: 40%;
+            animation: bounce2 2s infinite;
+          }
+          
+          @keyframes bounce {
+            0%,
+            100% {
+              transform: translateY(0);
+            }
+            50% {
+              transform: translateY(-25px); /* Adjust the distance of bounce as needed */
+            }
+          }
+
+          @keyframes bounce2 {
+            0%,
+            100% {
+              transform: translateY(0);
+              opacity: 40%;
+            }
+            50% {
+              transform: translateY(-10px); /* Adjust the distance of bounce as needed */
+              opacity: 0%;
+            }
+          }
+     
