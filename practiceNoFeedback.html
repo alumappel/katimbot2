@@ -11,7 +11,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 
-    <title>קתימבוט 2 - מערכת תרגול</title>
+    <title>קתימבוט 2 -  מערכת תרגול נסיונית</title>
 
     <!--favicon-->
 
@@ -106,19 +106,23 @@
 </head>
 
 <body class="fullscreen">
-    <div class="container" style="height: 100vh; max-width: 85vw;">
+    <div class="container" style="height: 92vh; max-width: 85vw;">
         <div class="row justify-content-between" style="padding-top: 2%;">
-            <div class="col-6 flex-column bg " style="height: 90vh;padding-left: 2rem;padding-right: 2rem;">
+            <div class="col-6 flex-column bg d-flex justify-content-center" style="height: 65vh;padding-left: 2rem;padding-right: 2rem;">
 
                 <div class="row bg-opacity-0 justify-content-center align-items-center"
                     style="height: 50vh;padding-top: 1rem;">
                     <div class="camera position-relative bg-video ">
                         <video id="player" class="" autoplay muted playsinline></video>
                         <canvas id="canvas1"></canvas>
-                        <div id="overlayBorderColor" class="overlay position-absolute"></div>
+                        <div id="overlayBorderColor" class="overlay position-absolute d-none"></div>
                     </div>
 
                 </div>
+                
+            </div>
+
+            <div class="col-5 flex-column bg  d-flex justify-content-center" style="height: 65vh;padding-left: 2rem;padding-right: 2rem;padding-top: 2%;">                           
                 <div class="row bg chart-container justify-content-center align-items-center" style="height: 15vh;">
                     <div id="chart"></div>
                 </div>
@@ -129,7 +133,7 @@
 
 
 
-            <div class="col-6" style="height: 90vh;">
+            <div class="col-6 d-none" style="height: 90vh;">
                 <div class="row justify-content-around" style="height: 24vh;margin-bottom: 4vh;">
                     <div id="handsDiv" class="col-7 bg">
                         <h3>תנועות ידיים</h3>
@@ -205,6 +209,8 @@
             </div>
         </div>
     </div>
+
+
 
 
     <footer class="footer mt-auto py-2 bg-light text-center footer-bg">
